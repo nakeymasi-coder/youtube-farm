@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--space:#050914;--space2:#0a1030;--panel:rgba(16,28,64,.72);--panel2:rgba(24,40,92,.55);--cyan:#37e6ff;--sapphire:#168fea;--violet:#8b5cff;--magenta:#ff4d8d;--ytred:#ff0033;--ink:#eaf2ff;--soft:#9fb4d8;--line:rgba(55,230,255,.35);--glow:0 0 18px rgba(55,230,255,.45)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Space Grotesk","Trebuchet MS",Verdana,sans-serif;background:#050914;color:var(--ink);min-height:100vh;padding:34px 12px 44px;position:relative;overflow-x:hidden;background-image:radial-gradient(1100px 600px at 85% -10%, rgba(139,92,255,.35), transparent 60%),radial-gradient(900px 550px at -10% 20%, rgba(22,143,234,.35), transparent 60%),radial-gradient(700px 500px at 50% 115%, rgba(255,0,51,.22), transparent 60%),linear-gradient(180deg,#04060f,#0a1030 55%,#050914);background-attachment:fixed}
+.stars,.stars2{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:0;background-repeat:repeat}
+.stars{background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(1.5px 1.5px at 130px 90px,#bfefff,transparent),radial-gradient(2px 2px at 240px 150px,#fff,transparent),radial-gradient(1.5px 1.5px at 320px 60px,#ffd7ec,transparent),radial-gradient(2px 2px at 420px 190px,#cfe8ff,transparent),radial-gradient(1.5px 1.5px at 520px 110px,#fff,transparent);background-size:560px 260px;animation:starDrift 90s linear infinite;opacity:.85}
+.stars2{background-image:radial-gradient(1.5px 1.5px at 60px 120px,#9adcff,transparent),radial-gradient(2.5px 2.5px at 200px 40px,#fff,transparent),radial-gradient(1.5px 1.5px at 360px 170px,#e3d7ff,transparent),radial-gradient(2px 2px at 480px 80px,#fff,transparent);background-size:620px 300px;animation:starDrift 140s linear infinite reverse;opacity:.6}
+@keyframes starDrift{from{transform:translateY(0)}to{transform:translateY(260px)}}
+.device{max-width:1140px;margin:0 auto;position:relative;z-index:1;border-radius:38px;padding:26px 26px 20px;background:linear-gradient(165deg,rgba(20,34,80,.92),rgba(8,13,36,.96) 60%,rgba(16,8,40,.95));border:1.5px solid rgba(120,200,255,.45);box-shadow:0 0 0 1px rgba(139,92,255,.25),0 30px 70px rgba(0,0,0,.65),0 0 55px rgba(22,143,234,.35),inset 0 1px 0 rgba(255,255,255,.25);animation:consoleIn .8s ease both}
+.device:before{content:"";position:absolute;inset:-2px;border-radius:40px;padding:2px;background:conic-gradient(from var(--a,0deg),transparent 0 40%,rgba(55,230,255,.8) 50%,transparent 60% 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ringSpin 7s linear infinite;pointer-events:none}
+@property --a{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes ringSpin{to{--a:360deg}}
+@keyframes consoleIn{from{opacity:0;transform:translateY(18px) scale(.99)}to{opacity:1;transform:none}}
+.shell-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:6px 6px 18px}
+.shell-brand{font-family:"Orbitron",sans-serif;font-weight:900;color:#fff;font-size:clamp(19px,3.8vw,34px);letter-spacing:2px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(90deg,#fff,#7ee7ff,#c9a7ff,#ff8fb8,#fff);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite;filter:drop-shadow(0 0 14px rgba(55,230,255,.45))}
+@keyframes shimmer{to{background-position:250% 0}}
+.os-pill{font-family:"Space Mono",monospace;font-size:11.5px;font-weight:bold;background:rgba(55,230,255,.12);color:#aef3ff;border:1.5px solid var(--line);border-radius:999px;padding:7px 13px;letter-spacing:1.5px;-webkit-text-fill-color:#aef3ff;animation:pulseGlow 3s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 4px rgba(55,230,255,.3)}50%{box-shadow:0 0 16px rgba(55,230,255,.75)}}
+.shell-pills{display:flex;gap:10px;flex-wrap:wrap}
+.shell-pill{font-family:"Space Mono",monospace;font-size:11.5px;font-weight:bold;background:rgba(139,92,255,.14);color:#e6dcff;border:1.5px solid rgba(139,92,255,.5);border-radius:999px;padding:8px 14px;letter-spacing:1px;display:inline-flex;align-items:center;gap:8px}
+.shell-pill .dot{width:10px;height:10px;border-radius:50%;background:#3dffc8;box-shadow:0 0 10px #3dffc8;animation:blinkDot 1.8s ease-in-out infinite}
+@keyframes blinkDot{0%,100%{opacity:1}50%{opacity:.45}}
+.lcd{background:linear-gradient(180deg,rgba(10,18,48,.85),rgba(7,10,30,.92));border-radius:24px;border:1.5px solid rgba(120,200,255,.35);box-shadow:inset 0 0 60px rgba(22,143,234,.15),inset 0 0 0 1px rgba(255,255,255,.05);padding:20px 18px 24px;position:relative;overflow:hidden}
+.lcd:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(120,200,255,.045) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(120,200,255,.045) 0 1px,transparent 1px 30px);pointer-events:none}
+.lcd:after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(190,240,255,.09),transparent);animation:shineSweep 6.5s ease-in-out infinite;pointer-events:none}
+@keyframes shineSweep{0%,55%{left:-70%}85%,100%{left:130%}}
+.orb{position:absolute;z-index:0;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;pointer-events:none;opacity:.9}
+.orb1{top:56px;right:26px;background:radial-gradient(circle at 32% 28%,#ff8fa8,#ff0033 60%,#a30021);box-shadow:0 0 22px rgba(255,0,51,.75);animation:floaty 5s ease-in-out infinite}
+.orb2{bottom:70px;left:16px;width:34px;height:34px;font-size:13px;background:radial-gradient(circle at 32% 28%,#aef3ff,#168fea 60%,#0a3d75);box-shadow:0 0 18px rgba(55,230,255,.8);animation:floaty 6.5s ease-in-out infinite reverse}
+.orb3{top:44%;right:10px;width:26px;height:26px;font-size:11px;background:radial-gradient(circle at 32% 28%,#e6dcff,#8b5cff 60%,#4b1fa3);box-shadow:0 0 16px rgba(139,92,255,.85);animation:floaty 7.5s ease-in-out infinite 1s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+.notice{position:relative;z-index:1;background:rgba(55,230,255,.07);border:1.5px dashed rgba(55,230,255,.55);border-radius:14px;padding:13px 15px;font-size:14.5px;line-height:1.55;margin:0 0 14px;color:#d9ecff}
+.notice b{color:#7ee7ff}
+nav.tabs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin:0 0 18px}
+nav.tabs button{border:1.5px solid rgba(120,200,255,.4);background:rgba(20,34,80,.6);color:#cfe6ff;padding:15px 6px;border-radius:14px;font-size:clamp(11px,1.6vw,14.5px);cursor:pointer;font-family:"Orbitron",sans-serif;font-weight:700;letter-spacing:1px;box-shadow:0 4px 14px rgba(0,0,0,.35);text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .25s ease;backdrop-filter:blur(6px)}
+nav.tabs button:hover{transform:translateY(-2px);border-color:var(--cyan);box-shadow:var(--glow)}
+nav.tabs button.active{background:linear-gradient(90deg,#ff0033,#ff4d8d,#8b5cff,#168fea);color:#fff;border-color:rgba(255,255,255,.65);box-shadow:0 0 22px rgba(255,77,141,.55),0 0 14px rgba(22,143,234,.5);animation:pulseGlow 3s ease-in-out infinite}
+.count-badge{background:var(--cyan);color:#04263b;border-radius:50%;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;padding:0 5px;font-family:"Space Grotesk",sans-serif;font-weight:700}
+.count-badge:empty{display:none}
+section.page{display:none}section.page.active{display:block;position:relative;z-index:1;animation:pageIn .45s ease both}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card{background:var(--panel);border:1.5px solid rgba(120,200,255,.28);border-radius:16px;padding:18px;margin:0 0 15px;box-shadow:0 10px 28px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(8px);animation:pageIn .5s ease both}
+.card h2{margin:0 0 10px;font-size:16.5px;color:#fff;font-family:"Orbitron",sans-serif;letter-spacing:1px;line-height:1.6;text-shadow:0 0 12px rgba(55,230,255,.5)}
+.card h3{margin:16px 0 7px;font-size:16px;color:#7ee7ff;font-family:"Space Mono",monospace}
+.card p,.card li{line-height:1.55;font-size:14.8px;color:#dbe8ff}
+.card a{color:#7ee7ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:11px}
+.mini{border:1.5px solid rgba(120,200,255,.25);border-radius:12px;padding:12px;background:rgba(255,255,255,.045);transition:all .25s ease}
+.mini:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:var(--glow)}
+.mini h4{margin:0 0 5px;font-size:15px;color:#ffb3cd;font-family:"Space Mono",monospace}
+.mini p{margin:0;font-size:14px}
+label{display:block;font-weight:bold;margin:14px 0 5px;font-size:14.5px;color:#aef3ff;font-family:"Space Mono",monospace}
+label:first-child{margin-top:0}
+input[type=text],input[type=url],select,textarea{width:100%;padding:10px 11px;border:1.5px solid rgba(120,200,255,.35);border-radius:10px;font-size:15px;font-family:inherit;background:rgba(6,10,28,.75);color:var(--ink)}
+select option{background:#0a1030;color:#eaf2ff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow)}
+textarea{min-height:84px;resize:vertical}
+.hint{font-size:13px;color:var(--soft);margin-top:4px;line-height:1.45}
+.btn{display:inline-block;border:1.5px solid rgba(255,255,255,.35);cursor:pointer;padding:11px 18px;border-radius:12px;font-size:13.5px;font-family:"Orbitron",sans-serif;font-weight:700;letter-spacing:.5px;background:linear-gradient(90deg,#168fea,#8b5cff,#ff4d8d);color:#fff;margin:6px 6px 6px 0;box-shadow:0 6px 18px rgba(22,143,234,.4);text-transform:uppercase;transition:all .22s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(139,92,255,.65)}
+.btn:active{transform:translateY(1px)}
+.btn.secondary{background:rgba(255,255,255,.06);color:#aef3ff;border-color:rgba(120,200,255,.5)}
+.btn.small{padding:8px 13px;font-size:12px}
+.btn.danger{background:rgba(255,0,51,.12);color:#ff9db4;border-color:rgba(255,0,51,.6);box-shadow:0 6px 16px rgba(255,0,51,.25)}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-pill{border:1.5px solid rgba(120,200,255,.35);border-radius:999px;padding:10px 15px;cursor:pointer;background:rgba(255,255,255,.05);font-size:14.5px;font-weight:bold;margin:0;color:#dbe8ff;transition:all .2s ease}
+.radio-pill input{margin-right:6px;accent-color:#ff4d8d}
+.radio-pill:has(input:checked){background:linear-gradient(90deg,rgba(255,0,51,.35),rgba(139,92,255,.35));border-color:#ff8fb8;color:#fff;box-shadow:0 0 14px rgba(255,77,141,.5)}
+.pp-sentence{background:rgba(255,77,141,.08);border:1.5px dashed rgba(255,77,141,.6);border-radius:12px;padding:10px 12px;font-size:14.5px;margin-top:8px;color:#ffe3ee}
+.pp-sentence b{color:#ff8fb8}
+.slotbox{border:1.5px dashed rgba(55,230,255,.55);border-radius:14px;padding:12px;text-align:center;background:rgba(55,230,255,.05)}
+.slotframe{width:132px;aspect-ratio:9/16;margin:0 auto 10px;border-radius:12px;background:rgba(6,10,28,.7);border:1.5px solid rgba(120,200,255,.4);display:flex;align-items:center;justify-content:center;overflow:hidden;color:var(--soft);font-size:12.5px;padding:6px;text-align:center;animation:pulseGlow 3.5s ease-in-out infinite}
+.slotframe.wide{width:220px;aspect-ratio:16/9}
+.slotframe img{width:100%;height:100%;object-fit:cover;display:block}
+.badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:rgba(139,92,255,.18);color:#cdbffa;border:1.5px solid rgba(139,92,255,.5);font-family:"Space Mono",monospace;text-transform:uppercase}
+.badge.locked{background:rgba(61,255,200,.14);color:#4dffc8;border-color:rgba(61,255,200,.55)}
+.badge.working{background:linear-gradient(90deg,#ff0033,#ff4d8d);color:#fff;border-color:rgba(255,255,255,.5)}
+.badge.done{background:rgba(61,255,200,.14);color:#4dffc8;border-color:rgba(61,255,200,.55)}
+.badge.queued{background:rgba(255,255,255,.06);color:#aef3ff;border-color:rgba(120,200,255,.5)}
+.empty{border:1.5px dashed rgba(120,200,255,.5);border-radius:14px;padding:24px;text-align:center;color:var(--soft);background:rgba(255,255,255,.03);font-size:14.8px;line-height:1.55}
+.thumb{width:78px;aspect-ratio:9/16;object-fit:cover;border-radius:10px;border:1.5px solid rgba(120,200,255,.5);vertical-align:top}
+.thumb-missing{width:78px;aspect-ratio:9/16;border-radius:10px;border:1.5px dashed rgba(255,77,141,.6);display:inline-flex;align-items:center;justify-content:center;color:var(--soft);font-size:11px;text-align:center;padding:4px;vertical-align:top;background:rgba(255,255,255,.03)}
+.kv{font-size:14.8px;line-height:1.65;color:#dbe8ff}.kv b{color:#7ee7ff}
+.prompt-out{white-space:pre-wrap;background:#03061a;color:#8ef7d2;border:1px solid rgba(61,255,200,.35);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.55;font-family:"Space Mono",monospace;word-break:break-word;box-shadow:inset 0 0 30px rgba(61,255,200,.06)}
+.codebox{background:#03061a;color:#8ef7d2;border:1px solid rgba(61,255,200,.35);border-radius:12px;padding:13px 14px;font-family:"Space Mono",monospace;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.queue-card{border:1.5px solid rgba(120,200,255,.3);border-radius:14px;padding:15px;margin-bottom:13px;background:rgba(16,28,64,.6);box-shadow:0 8px 22px rgba(0,0,0,.4)}
+.queue-card h3{margin:0 0 6px;font-size:16px;color:#ffb3cd;font-family:"Space Mono",monospace}
+.queue-card .kv{border-top:1.5px dashed rgba(120,200,255,.3);padding-top:9px;margin-top:8px}
+.status-row{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0;align-items:center}
+.status-row button{border:1.5px solid rgba(61,255,200,.45);background:rgba(61,255,200,.08);color:#4dffc8;border-radius:9px;padding:7px 13px;font-family:"Space Mono",monospace;font-weight:bold;cursor:pointer;font-size:12.5px;text-transform:uppercase;transition:all .2s ease}
+.status-row button.on{background:linear-gradient(90deg,#ff0033,#ff4d8d);color:#fff;border-color:rgba(255,255,255,.55);box-shadow:0 0 14px rgba(255,77,141,.55)}
+.agent-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.agent-tabs button{border:1.5px solid rgba(120,200,255,.4);background:rgba(255,255,255,.05);padding:9px 12px;border-radius:999px;cursor:pointer;font-family:"Space Mono",monospace;font-size:13px;font-weight:bold;color:#aef3ff;transition:all .2s ease}
+.agent-tabs button:hover{border-color:var(--cyan)}
+.agent-tabs button.active{background:linear-gradient(90deg,#168fea,#8b5cff);color:#fff;border-color:rgba(255,255,255,.55);box-shadow:0 0 16px rgba(22,143,234,.6)}
+.solo-form{display:none}.solo-form.active{display:block;animation:pageIn .4s ease both}
+.shell-bottom{padding:18px 10px 2px}.round-btns{display:flex;gap:clamp(20px,6vw,54px);justify-content:center}
+.round-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.round-wrap span{font-family:"Orbitron",sans-serif;font-size:9.5px;font-weight:700;color:#aef3ff;letter-spacing:1.5px;text-shadow:0 0 8px rgba(55,230,255,.6)}
+.shell-btn{width:62px;height:62px;border-radius:50%;border:2px solid rgba(160,225,255,.7);cursor:pointer;background:radial-gradient(circle at 32% 28%,#aef3ff 0%,#37b6ff 38%,#8b5cff 78%,#ff4d8d 115%);box-shadow:0 0 20px rgba(55,230,255,.65),inset 0 -6px 14px rgba(3,6,26,.55);animation:orbBob 4s ease-in-out infinite;transition:transform .2s ease}
+.round-wrap:nth-child(2) .shell-btn{animation-delay:.6s;background:radial-gradient(circle at 32% 28%,#ffc2d4 0%,#ff4d8d 40%,#ff0033 80%,#8b5cff 120%);box-shadow:0 0 20px rgba(255,77,141,.65),inset 0 -6px 14px rgba(3,6,26,.55)}
+.round-wrap:nth-child(3) .shell-btn{animation-delay:1.2s}
+.round-wrap:nth-child(4) .shell-btn{animation-delay:1.8s;background:radial-gradient(circle at 32% 28%,#e6dcff 0%,#8b5cff 42%,#168fea 85%,#37e6ff 120%);box-shadow:0 0 20px rgba(139,92,255,.7),inset 0 -6px 14px rgba(3,6,26,.55)}
+@keyframes orbBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.shell-btn:active{transform:translateY(3px) scale(.96)}
+.footer-note{text-align:center;color:#8fb8e8;font-size:12.5px;margin-top:14px;line-height:1.5;font-family:"Space Mono",monospace;letter-spacing:.5px}
+.err{color:#ff8fb0;font-weight:bold;font-size:13.5px;margin-top:6px;min-height:18px}
+.saved-msg{color:#4dffc8;font-weight:bold;font-size:14px;min-height:20px}
+ol.steps li{margin-bottom:7px}
+.trail-star{position:fixed;z-index:50;pointer-events:none;font-size:13px;line-height:1;animation:trailFade .8s ease-out forwards;text-shadow:0 0 8px rgba(55,230,255,.9)}
+@keyframes trailFade{0%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0deg)}100%{opacity:0;transform:translate(-50%,-160%) scale(.4) rotate(90deg)}}
+@media (max-width:640px){nav.tabs{grid-template-columns:repeat(2,1fr)}.device{padding:18px 12px 14px;border-radius:28px}.orb1{right:8px}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="stars"></div><div class="stars2"></div>
+<div class="device">
+  <div class="shell-top"><div class="shell-brand">▶ YOUTUBE FARM <span class="os-pill">FUTURE OS • ORBITAL v2.0</span></div><div class="shell-pills"><span class="shell-pill"><span class="dot"></span>LONG-FORM 16:9 + SHORTS 9:16</span><span class="shell-pill">MUSE CHAT BRIDGE: READY</span></div></div>
+  <div class="lcd">
+    <div class="orb orb1">▶</div><div class="orb orb2">▶</div><div class="orb orb3">▶</div>
+    <div class="notice"><b>Please read — what this dashboard does NOT do:</b> This dashboard by itself does <b>not</b> browse YouTube or Pinterest, generate images, or make videos when you submit a form. Those steps are done by <b>Muse in chat after submission</b>, using Run in Chat. The dashboard does <b>not</b> promise automatic execution from the dashboard alone, and <b>nothing is auto-posted or auto-published to YouTube</b>.</div>
+    <nav class="tabs" id="mainTabs">
+      <button data-page="home" class="active">1. Home</button>
+      <button data-page="intake">2. Video Intake</button>
+      <button data-page="vault">3. Vault <span class="count-badge" id="vaultCount"></span></button>
+      <button data-page="solo">4. Solo Agents</button>
+      <button data-page="queue">5. Queue <span class="count-badge" id="queueCount"></span></button>
+    </nav>
+
+    <!-- HOME -->
+    <section class="page active" id="page-home">
+      <div class="card">
+        <h2>Built for YOUR channel — Glam Hustle Hub</h2>
+        <p>This farm is tailored to <b>Glam Hustle Hub (@promptlikeglam)</b> — beginner-friendly AI for <b>women 40+</b>. Your voice in every script: <b>warm, plain everyday English, no tech talk, a little sassy, step-by-step, and you call them “boo.”</b> Your two lanes: the <b>views lane</b> — AI photo prompt Shorts — and the <b>money lane</b> — beginner app-build tutorials, lives, and demos of your own products. Your shows: <b>AI After 40</b> (Renee + Marcus) and <b>The Prompt Breakdown</b> (Simone + Desi) — the hosts of one show never appear in the other. Your brand on every image and thumbnail: <b>light sapphire, chrome silver, pearl white, butterflies</b> — and plus-size women are <b>never slimmed down</b>. Your money path in every description: the video's own product first, then the <b>$160 Glam Vault</b> join — Join always points to the Glam Vault, never the free Skool link. Nothing here is generic: the Scout researches what is actually popping on YouTube right now and reports back to you first, and images and thumbnails are built from those live patterns.</p>
+        <h2>How the YouTube farm works</h2>
+        <p>The farm takes a run from what the Scout finds popping on YouTube right now — adapted to your channel, your audience and your voice — to a finished YouTube video, and brings the video back to you in chat for approval. One dashboard holds it all: the full Video Intake Form, the Character Vault for locked characters, solo forms for all 5 agents, and the Queue for every run and solo job.</p>
+        <p><b>YouTube difference:</b> Long-form videos are built <b>16:9</b> for watch pages. YouTube Shorts are built <b>9:16</b>. Character references stay <b>9:16</b> either way — headshots and body reference sheets are portrait locks. Thumbnails are <b>16:9 (1280 × 720)</b>.</p>
+        <h3>The 5 agents, in order</h3>
+        <div class="grid">
+          <div class="mini"><h4>1. YouTube Scout</h4><p><b>Researches YouTube first — before anything is made.</b> Searches your niche and the lanes next to it to see <b>what's viral and what's popping right now</b>: fast-rising Shorts, breakout long-form videos, titles and hooks pulling views, and the thumbnail styles on the winners. It also checks <b>your own channel</b> to see what has already popped for you. Then it <b>comes back and tells you</b> — a ranked report with the actual video titles, channels, and the view/recency evidence exactly as shown on YouTube that day, why each one is popping, and the angle adapted for your women-40+ audience in your voice — <b>never a copy</b> of another creator's video. <b>You pick the direction from the report, then the farm goes from there.</b> No invented view counts or stats — if it wasn't seen on YouTube, it isn't in the report.</p></div>
+          <div class="mini"><h4>2. Image &amp; Thumbnail Agent</h4><p><b>Built from what's popping — never generic.</b> Works from the Scout's report: the image concepts and the <b>16:9 thumbnail</b> follow the patterns on the viral videos right now — the face size and expression, the 3–4 big words, the contrast, the colour pop, split / before-and-after layouts when those are winning — translated into <b>your</b> brand (sapphire, chrome, pearl, butterflies) and <b>your</b> faces. Creates the person and avatar images too: <b>ultra realistic, real skin texture and real hair texture</b>, all in chat, all <b>PNG</b>; character references <b>9:16</b>. Podcast thumbnails always show <b>both</b> hosts of that show — Renee + Marcus, or Simone + Desi, never mixed.</p></div>
+          <div class="mini"><h4>3. Script Agent</h4><p>Writes in <b>your voice</b> — warm, plain English, no tech talk, “boo,” step-by-step with a hands-on demo where the mode calls for one. Writes the <b>first-30-seconds hook</b>, the full spoken script, chapter breaks and the shot list. For AI After 40 and The Prompt Breakdown it writes <b>real host dialogue</b> — every line is a line a host actually says, set up as its own talking shot. Labels every scene with the run's one Product Presentation choice, and writes <b>scene action only</b> for video prompts, never a description of the character.</p></div>
+          <div class="mini"><h4>4. Production Agent</h4><p>Makes the video <b>right here in Muse with the built-in video tool, in chat</b> — the way you actually make your videos. Both character references go into <b>every</b> scene; show episodes are built line by line as real talking shots from the approved script, in the show's locked studio. Long-form <b>16:9</b>, Shorts <b>9:16</b>. For tutorials and lives that <b>you</b> record, it builds your filming order and screen-demo checklist instead. Muse's video tool runs on a daily allowance that refills — not credits. Returns the finished video in chat for approval. <b>Never posts or publishes it.</b></p></div>
+          <div class="mini"><h4>5. Publish &amp; Monetize Agent</h4><p>Writes the <b>title</b> (built from the title patterns the Scout found popping, honest, no false claims), the full <b>description</b>, <b>chapters / timestamps</b>, tags, a pinned comment, an end-screen line pointing to your next video, and a Community post draft. The description carries <b>your money path</b>: the video's product / Payhip link first, the <b>AI After 40 Study Companion ($27)</b> on podcast episodes, then <b>Join = the $160 Glam Vault</b> — never the free Skool URL. For a product launch, <b>one code with six uses, with the code and link right in the post</b>. <b>No price, discount or sale claim unless a live price was actually verified, and no invented views or stats.</b></p></div>
+        </div>
+        <h3>The 8 modes — your modes</h3>
+        <p>Mode is a setting, not a separate farm. It changes what the Scout researches, the script structure, the shots, the thumbnail and the title.</p>
+        <div class="grid">
+          <div class="mini"><p><b>1. AI Photo Prompt Short</b> — your views lane. A Gemini-style AI portrait idea as a 9:16 Short: the image, the on-screen prompt, the reveal. Themes like your winners — fashion glam, fantasy, holiday.</p></div>
+          <div class="mini"><p><b>2. Beginner App Build</b> — your money lane. A step-by-step build tutorial or live, like “Build Your First App with Muse” — plain English, hands-on, they build along.</p></div>
+          <div class="mini"><p><b>3. AI Tool Walkthrough</b> — a beginner-friendly tour of one AI tool or new feature, like “ChatGPT Just Got a Glow-Up” — show it, don't tech-talk it.</p></div>
+          <div class="mini"><p><b>4. AI After 40 Episode</b> — Renee + Marcus, real talking episode from the real script, tagline “AI made simple — for life and business after 40.” Study Companion linked in the description.</p></div>
+          <div class="mini"><p><b>5. The Prompt Breakdown Episode</b> — Simone + Desi teaching ONE prompt recipe per episode. “Prompt It Right — Say It Right to Your AI.”</p></div>
+          <div class="mini"><p><b>6. Product Demo &amp; Launch</b> — a demo of your own generator, app or template: who it's for, how to use it, how to make money with it, then the Payhip link.</p></div>
+          <div class="mini"><p><b>7. Live Teaching / Workshop</b> — a live teaching session or workshop and its replay: the lesson plan, the demo order, and the offer it leads to.</p></div>
+          <div class="mini"><p><b>8. Package &amp; Post My Existing Video</b> — for a video you <b>already made</b>. The Scout checks your live video and what's popping, Image &amp; Thumbnail makes it a thumbnail that can compete, and Publish &amp; Monetize writes the title, description, chapters and tags — then posts it once you approve the package. No new video is made in this mode.</p></div>
+        </div>
+        <h3>It's not always a product — and that's built in</h3>
+        <p>The Intake form asks <b>what this video is built around</b>: a product / offer, <b>images</b>, <b>a prompt</b>, <b>your existing video</b>, just a topic, or something else. The agents adapt to that choice — a prompt video leads with the prompt and its reveal, an images video leads with the images, and only a product video leads with the product and its Payhip link.</p>
+        <h3>Already made the video? That's a mode, not a new agent</h3>
+        <p>You asked whether checking a video you already have live needs its own agent — it doesn't. It's <b>Mode 8, Package &amp; Post My Existing Video</b>, and your same 5 agents do it in a different order: <b>Scout</b> opens your live video and checks it against what's popping (title pulling? thumbnail competing? description doing its job?), <b>Image &amp; Thumbnail</b> builds a fresh thumbnail from the winning patterns, <b>Script</b> is skipped (the video's already made), <b>Production</b> is skipped too, and <b>Publish &amp; Monetize</b> writes the whole package — title, description, chapters, tags, pinned comment — and <b>posts it after you approve the package in chat</b>. Approving the package is your post approval for this mode; nothing posts before that.</p>
+        <h3>The Product Presentation rule — either / or, never both</h3>
+        <p>Every run picks <b>one single choice</b>, right after Mode: <b>Wearing the product</b> or <b>Holding the product</b>.</p>
+        <div class="pp-sentence">Wearing run — every prompt ends: <b>Wearing the product, not holding it.</b></div>
+        <div class="pp-sentence">Holding run — every prompt ends: <b>Holding the product, not wearing it.</b></div>
+        <p>Never wearing an outfit while holding that same outfit on a hanger. Reject and regenerate any image that shows both. If a video needs both, holding first and wearing later — use <b>separate scenes</b>, never the same shot.</p>
+        <h3>The thumbnail rule</h3>
+        <p>One thumbnail per long-form video, <b>based on the thumbnail patterns the Scout found on the videos popping right now</b> — never a generic template. The locked character's (or both hosts') real face from the references, <b>3–4 big words max</b>, readable on a phone, no tiny text, no face that isn't hers, your sapphire / chrome / pearl brand with a butterfly when it fits. Made in chat as a <b>16:9 PNG</b> and returned with the video for your approval — never uploaded without it.</p>
+        <h3>How Run in Chat works</h3>
+        <p>Every Queue run gets a <b>Run in Chat</b> button. Pressing it sets that run to <b>working</b> and opens a Run in Chat card showing the locked character, Slot 1 headshot and Slot 2 single 9:16 body reference sheet status and location with thumbnails when uploaded, the voice, the mode, the Product Presentation choice and its exact prompt sentence, the YouTube format, the topic, the length, the product name and link, and the reference video link when present. The card has a <b>Copy prompt</b> button. You paste that prompt into a new chat and Muse runs that exact run — nothing swapped. <b>There is no scheduled pickup. Do not build one unless asked for separately.</b></p>
+      </div>
+      <div class="card">
+        <h2>The workflow, step by step</h2>
+        <ol class="steps">
+          <li><b>Scout first — and it reports back to you.</b> The YouTube Scout researches what's viral and popping right now in your niche, checks what has popped on your own channel, and brings you a ranked report: real titles, channels, view/recency evidence as shown on YouTube, why each is popping, and the angle adapted for your audience. <b>You pick the direction — then the farm goes from there.</b></li>
+          <li><b>Lock the look in chat.</b> Using the locked character's reference photos, put that character in the exact look / outfit from the picked angle in chat first. Check it for face match and outfit match.</li>
+          <li><b>Make the outfit reference sheet in chat.</b> From that approved outfit photo, create one single 9:16 reference sheet with front, profile and three-quarter shots of her in that outfit, all on the same photo. Save it as <b>PNG</b>.</li>
+          <li><b>Load both references into every scene.</b> Reference One is her headshot. Reference Two is that chat-made outfit reference sheet. <b>Never make a scene without both.</b></li>
+          <li><b>Create the scenes in Muse</b> with the built-in video maker, from that headshot plus sheet lock, in script order — 16:9 for long-form, 9:16 for Shorts. Show episodes: every script line is its own talking shot. Tutorials/lives you record: follow the filming order and screen-demo checklist instead.</li>
+          <li><b>Make the thumbnail in chat</b> — 16:9 PNG, built from the Scout's viral thumbnail patterns in your brand, her face (or both hosts), 3–4 big words.</li>
+          <li><b>Export and return the video + thumbnail in chat for approval.</b> Do not post, publish or share it.</li>
+        </ol>
+        <h3>The character lock in Muse — every scene, every time</h3>
+        <ol class="steps">
+          <li>Every scene is made in Muse with the built-in video maker, in chat — no outside video app.</li>
+          <li><b>Reference One:</b> headshot. <b>Reference Two:</b> the chat-made outfit reference sheet. Both references go into <b>every</b> scene generation — never a scene without both.</li>
+          <li>No character bible is needed. The reference photos are the lock. Do not paste a bible into the scene prompts.</li>
+          <li>Show episodes stay in their locked studio, with their own hosts only — Renee + Marcus for AI After 40, Simone + Desi for The Prompt Breakdown, never mixed.</li>
+        </ol>
+        <h3>Use this prompt shape for every scene — and nothing else about her</h3>
+        <div class="codebox">Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] Wearing the product, not holding it.</div>
+        <p>Never describe her in the prompt. No face, hair, skin, body or outfit description. Describing her overrides the references and creates a different girl. The last line swaps to the holding version when that is the run's choice.</p>
+      </div>
+      <div class="card">
+        <h2>Standing rules</h2>
+        <p><b>Image format:</b> Every image Muse creates must be <b>PNG, not webp</b> — character images, outfit references, outfit reference sheets and thumbnails. Your own uploaded Vault photos stay as you saved them, <b>JPG or PNG</b>. Webp uploads are rejected with a clear message.</p>
+        <p><b>Characters:</b> Ultra realistic, with real skin texture and real hair texture. Character A is reused as Character A, Character B as Character B. Within one video, identity, clothing, location and lighting stay frozen from the uploaded reference photos.</p>
+        <p><b>Scout-first rule:</b> No run starts production on a guess. The Scout researches YouTube live, reports what's popping with the evidence as shown, and Glam picks the direction before Image, Script and Production build anything.</p>
+        <p><b>Permissions:</b> Videos are made in Muse in chat — there is no outside video app to upload to in this farm. Posting or publishing to YouTube still needs your separate approval, every time.</p>
+        <p><b>Video allowance:</b> Muse's video tool runs on a daily allowance that refills on its own — not credits. There is nothing to buy.</p>
+        <p><b>Queue rule:</b> The Queue status button only changes the label to queued, working or done. It does not run YouTube research, image generation or video making. Real execution is triggered from chat, using Run in Chat.</p>
+      </div>
+    </section>
+
+    <!-- VIDEO INTAKE -->
+    <section class="page" id="page-intake">
+      <div class="card">
+        <h2>Video Intake Form — full YouTube farm run</h2>
+        <p>Saving this form adds one full run to the Queue. It does not start research, image generation or video making — that happens in chat after you press Run in Chat on the Queue card.</p>
+        <label>1. Locked character</label>
+        <select id="in_char"></select>
+        <div class="hint">Pick a locked character from the Vault, or choose “Create a new character” to go to the Vault and add one. A character is only locked when both Vault slots are filled.</div>
+        <label>2. Mode</label>
+        <select id="in_mode">
+          <option>AI Photo Prompt Short</option><option>Beginner App Build</option><option>AI Tool Walkthrough</option><option>AI After 40 Episode</option><option>The Prompt Breakdown Episode</option><option>Product Demo &amp; Launch</option><option>Live Teaching / Workshop</option><option>Package &amp; Post My Existing Video</option>
+        </select>
+        <label>3. Product Presentation — right after Mode, one single choice</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="in_pp" value="Wearing the product" checked> Wearing the product</label>
+          <label class="radio-pill"><input type="radio" name="in_pp" value="Holding the product"> Holding the product</label>
+        </div>
+        <div class="pp-sentence" id="in_pp_sentence"></div>
+        <label>4. Topic</label>
+        <input type="text" id="in_topic" placeholder="e.g. Pink runway AI photo prompt, or Build your first app with Muse">
+        <label>5. Length</label>
+        <input type="text" id="in_length" placeholder="e.g. 45 seconds for a Short, 8–10 minutes tutorial, 4–5 minutes podcast episode">
+        <label>6. YouTube format</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="in_format" value="Long-form 16:9" checked> Long-form 16:9</label>
+          <label class="radio-pill"><input type="radio" name="in_format" value="YouTube Short 9:16"> YouTube Short 9:16</label>
+        </div>
+        <div class="hint">Long-form = 16:9 scenes + a 16:9 thumbnail. Short = 9:16 scenes, no thumbnail needed. Character references stay 9:16 either way.</div>
+        <label>7. What is this video built around? — it's not always a product</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="A product / offer"> A product / offer</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="Images" checked> Images</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="A prompt"> A prompt</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="My existing video — already made"> My existing video — already made</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="Just a topic / idea"> Just a topic / idea</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="Something else"> Something else</label>
+        </div>
+        <div class="hint">Pick the one that fits. A run can be built around a set of images, a prompt you want to share or sell, a video you already made, or something else entirely — not just a product. Then name it and link it below: a Payhip link for a product, your YouTube link for an existing video, or leave the link empty.</div>
+        <input type="text" id="in_product_name" placeholder="Name — product, prompt pack, image set, or your video's working title" style="margin-top:8px">
+        <input type="url" id="in_product_link" placeholder="Link — Payhip, your live YouTube video, or leave empty" style="margin-top:8px">
+        <label>8. Reference video link, when there is one</label>
+        <input type="url" id="in_ref_link" placeholder="A YouTube video that is popping in this lane, when there is one">
+        <div class="hint">A reference is for the angle, pacing and structure — never to copy another creator's video, script or thumbnail.</div>
+        <label>9. Notes</label>
+        <textarea id="in_notes" placeholder="The product / offer this video points to, must-say lines, episode number for a show, anything Muse must not swap"></textarea>
+        <div><button class="btn" id="in_save">♥ Save full run to Queue</button></div>
+        <div class="saved-msg" id="in_msg"></div>
+      </div>
+    </section>
+
+    <!-- CHARACTER VAULT -->
+    <section class="page" id="page-vault">
+      <div class="card">
+        <h2>Host &amp; Character Vault — locked characters</h2>
+        <p>One record per locked character — Glam herself, a show host, or a portrait character. <b>Show rule: AI After 40 is Renee + Marcus together, and The Prompt Breakdown is Simone + Desi together — a show thumbnail or episode always uses both of its hosts, and hosts never cross shows.</b> One record per locked character. <b>Every locked character must have both slots.</b> A character is <b>not locked until both are filled</b>. You can upload a character you already have outside this dashboard — headshot for Slot 1 and a single 9:16 body reference sheet for Slot 2 — instead of only creating a character inside the dashboard.</p>
+        <p><b>Slot 1 — Headshot:</b> one photo, 9:16.<br><b>Slot 2 — Body reference sheet:</b> one <b>single</b> 9:16 photo, not separate photos, with front, side view, profile and three-quarter shots all on that same photo.</p>
+        <p>Uploads are accepted as <b>JPG or PNG</b>, as you saved them — you are not forced to PNG. <b>WebP is rejected</b> with a clear message. Characters must be <b>ultra realistic, with real skin texture and real hair texture</b>. Within one video, identity, clothing, location and lighting stay frozen from these reference photos.</p>
+        <label>Who is this?</label>
+        <select id="v_type"><option>Glam — herself</option><option>AI After 40 host</option><option>The Prompt Breakdown host</option><option>Portrait character</option><option>Other character</option></select>
+        <label>Character name</label>
+        <input type="text" id="v_name" placeholder="e.g. Glam">
+        <div class="hint">The letter is assigned automatically — the next free letter (A, B, C…). Character A is reused as Character A, Character B as Character B.</div>
+        <label>Voice description</label>
+        <input type="text" id="v_voice" placeholder="e.g. warm, sassy, straight-forward, funny">
+        <div class="grid" style="margin-top:14px">
+          <div class="slotbox">
+            <h3 style="margin-top:0">Slot 1 — Headshot · 9:16</h3>
+            <div class="slotframe" id="v_slot1_frame">No photo yet</div>
+            <input type="file" id="v_slot1" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <div class="err" id="v_slot1_err"></div>
+          </div>
+          <div class="slotbox">
+            <h3 style="margin-top:0">Slot 2 — Body Reference Sheet · single 9:16</h3>
+            <div class="slotframe" id="v_slot2_frame">No photo yet<br>Front + side + profile + three-quarter, all on ONE photo</div>
+            <input type="file" id="v_slot2" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <div class="err" id="v_slot2_err"></div>
+          </div>
+        </div>
+        <div><button class="btn" id="v_save">♥ Lock character in Vault</button></div>
+        <div class="saved-msg" id="v_msg"></div>
+        <div class="err" id="v_err"></div>
+      </div>
+      <div class="card">
+        <h2>Locked characters</h2>
+        <div id="vaultList"></div>
+      </div>
+    </section>
+
+    <!-- SOLO AGENTS -->
+    <section class="page" id="page-solo">
+      <div class="card">
+        <h2>Solo Agent Forms — run one agent by itself</h2>
+        <p>Pick an agent, fill its form, and copy its ready-made prompt — or save it to the Queue as a solo job. A solo form does not execute anything by itself; Muse runs it in chat after you paste the prompt. The solo Script form and the solo Production form also include the Product Presentation choice.</p>
+        <div class="agent-tabs" id="soloTabs">
+          <button data-solo="1" class="active">1. YouTube Scout</button>
+          <button data-solo="2">2. Image &amp; Thumbnail</button>
+          <button data-solo="3">3. Script</button>
+          <button data-solo="4">4. Production</button>
+          <button data-solo="5">5. Publish &amp; Monetize</button>
+        </div>
+        <div id="soloForms"></div>
+      </div>
+    </section>
+
+    <!-- QUEUE -->
+    <section class="page" id="page-queue">
+      <div class="card">
+        <h2>Queue — full runs + solo jobs, newest first</h2>
+        <p>Status is <b>manual</b>: queued, working or done. Changing it <b>does not execute anything</b> — it only changes the label. Press <b>Run in Chat</b> on a card to set it to working, open its Run in Chat card, and copy the complete prompt to paste into a new chat.</p>
+        <div id="queueList"></div>
+        <div id="runCardWrap"></div>
+      </div>
+    </section>
+  </div>
+  <div class="shell-bottom"><div class="round-btns">
+    <div class="round-wrap"><button class="shell-btn" data-page="home" aria-label="Home"></button><span>HOME</span></div>
+    <div class="round-wrap"><button class="shell-btn" data-page="intake" aria-label="Video Intake"></button><span>INTAKE</span></div>
+    <div class="round-wrap"><button class="shell-btn" data-page="vault" aria-label="Character Vault"></button><span>VAULT</span></div>
+    <div class="round-wrap"><button class="shell-btn" data-page="queue" aria-label="Queue"></button><span>QUEUE</span></div>
+  </div></div>
+  <div class="footer-note">YOUTUBE FARM · starts empty · nothing is auto-posted or auto-published · Muse runs every job in chat</div>
+</div>
+<script>
+var CHARS_KEY='ytf_chars_v1', QUEUE_KEY='ytf_queue_v1';
+var MODES=['AI Photo Prompt Short','Beginner App Build','AI Tool Walkthrough','AI After 40 Episode','The Prompt Breakdown Episode','Product Demo & Launch','Live Teaching / Workshop','Package & Post My Existing Video'];
+var AGENTS={1:'YouTube Scout',2:'Image & Thumbnail Agent',3:'Script Agent',4:'Production Agent',5:'Publish & Monetize Agent'};
+var chars=[], queue=[];
+try{ chars=JSON.parse(localStorage.getItem(CHARS_KEY)||'[]'); }catch(e){ chars=[]; }
+try{ queue=JSON.parse(localStorage.getItem(QUEUE_KEY)||'[]'); }catch(e){ queue=[]; }
+var pendingSlot1=null, pendingSlot2=null;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function uid(){ return 'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function saveChars(){ try{ localStorage.setItem(CHARS_KEY, JSON.stringify(chars)); }catch(e){} updateCounts(); }
+function saveQueue(){ try{ localStorage.setItem(QUEUE_KEY, JSON.stringify(queue)); }catch(e){} updateCounts(); }
+function updateCounts(){ var q=$('queueCount'); if(q) q.textContent=queue.length?queue.length:''; var v=$('vaultCount'); if(v) v.textContent=chars.length?chars.length:''; }
+function ppSentence(pp){ return pp==='Holding the product' ? 'Holding the product, not wearing it.' : (pp==='Wearing the product' ? 'Wearing the product, not holding it.' : '— no Product Presentation picked —'); }
+function findChar(id){ for(var i=0;i<chars.length;i++){ if(chars[i].id===id) return chars[i]; } return null; }
+function charLabel(c){ return c ? ('Character '+c.letter+(c.name?' — '+c.name:'')) : 'No character picked'; }
+function nextLetter(){ var used={}; chars.forEach(function(c){ used[String(c.letter||'').toUpperCase()]=1; }); var L='ABCDEFGHIJKLMNOPQRSTUVWXYZ'; for(var i=0;i<L.length;i++){ if(!used[L[i]]) return L[i]; } return String(chars.length+1); }
+function showPage(name){
+  document.querySelectorAll('section.page').forEach(function(s){ s.classList.toggle('active', s.id==='page-'+name); });
+  document.querySelectorAll('#mainTabs button').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-page')===name); });
+  if(name==='queue') renderQueue();
+  if(name==='vault') renderVault();
+}
+document.querySelectorAll('#mainTabs button').forEach(function(b){ b.addEventListener('click', function(){ showPage(b.getAttribute('data-page')); }); });
+document.querySelectorAll('.shell-btn').forEach(function(b){ b.addEventListener('click', function(){ showPage(b.getAttribute('data-page')); }); });
+function charOptions(selectedId, allowCreate){
+  var h='<option value="">No character picked</option>';
+  chars.forEach(function(c){ h+='<option value="'+c.id+'"'+(c.id===selectedId?' selected':'')+'>'+esc(charLabel(c))+(c.voice?' · '+esc(c.voice):'')+'</option>'; });
+  if(allowCreate) h+='<option value="__create">+ Create a new character (go to Vault)</option>';
+  return h;
+}
+function fillCharPickers(){
+  var cur=$('in_char').value;
+  $('in_char').innerHTML=charOptions(cur, true);
+  if(cur && findChar(cur)) $('in_char').value=cur;
+  document.querySelectorAll('select[data-charpicker]').forEach(function(sel){ var v=sel.value; sel.innerHTML=charOptions(v, true); if(v && findChar(v)) sel.value=v; });
+}
+function pickerChanged(sel){ if(sel.value==='__create'){ sel.value=''; showPage('vault'); } }
+$('in_char').addEventListener('change', function(){ pickerChanged(this); });
+function bindPP(radioName, outId){
+  function upd(){ var el=document.querySelector('input[name="'+radioName+'"]:checked'); var pp=el?el.value:''; var out=$(outId); if(out) out.innerHTML='Exact prompt sentence for this run: <b>'+esc(ppSentence(pp))+'</b>'; }
+  document.querySelectorAll('input[name="'+radioName+'"]').forEach(function(r){ r.addEventListener('change', upd); });
+  upd();
+}
+function getPP(radioName){ var el=document.querySelector('input[name="'+radioName+'"]:checked'); return el?el.value:''; }
+function getRadio(name){ var el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:''; }
+function handleUpload(input, frameId, errId, which){
+  var f=input.files && input.files[0]; var err=$(errId); err.textContent='';
+  if(!f) return;
+  var name=(f.name||'').toLowerCase(); var type=(f.type||'').toLowerCase();
+  if(type==='image/webp' || name.endsWith('.webp')){ err.textContent='WebP is not accepted. JPG or PNG are accepted — please re-save this photo as JPG or PNG.'; input.value=''; return; }
+  if(!(type==='image/jpeg' || type==='image/png' || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png'))){ err.textContent='Only JPG or PNG are accepted for Vault uploads.'; input.value=''; return; }
+  var r=new FileReader();
+  r.onload=function(){ var slot={name:f.name, dataUrl:r.result}; if(which===1) pendingSlot1=slot; else pendingSlot2=slot; $(frameId).innerHTML='<img src="'+r.result+'" alt="">'; };
+  r.readAsDataURL(f);
+}
+$('v_slot1').addEventListener('change', function(){ handleUpload(this,'v_slot1_frame','v_slot1_err',1); });
+$('v_slot2').addEventListener('change', function(){ handleUpload(this,'v_slot2_frame','v_slot2_err',2); });
+$('v_save').addEventListener('click', function(){
+  $('v_err').textContent=''; $('v_msg').textContent='';
+  if(!pendingSlot1 || !pendingSlot2){ $('v_err').textContent='A character is not locked until BOTH slots are filled — Slot 1 headshot (9:16) and Slot 2 single 9:16 body reference sheet are both required.'; return; }
+  var c={id:uid(), letter:nextLetter(), type:($('v_type')?$('v_type').value:''), name:$('v_name').value.trim(), voice:$('v_voice').value.trim(), slot1:pendingSlot1, slot2:pendingSlot2};
+  chars.push(c); saveChars();
+  pendingSlot1=null; pendingSlot2=null; $('v_slot1').value=''; $('v_slot2').value=''; $('v_name').value=''; $('v_voice').value='';
+  $('v_slot1_frame').textContent='No photo yet'; $('v_slot2_frame').innerHTML='No photo yet';
+  $('v_msg').textContent='♥ '+charLabel(c)+' locked in the Vault — both slots filled.';
+  fillCharPickers(); renderVault();
+});
+function renderVault(){
+  var w=$('vaultList');
+  if(!chars.length){ w.innerHTML='<div class="empty">The Vault is empty. No test characters ship with this dashboard.<br>Upload Slot 1 + Slot 2 above to lock your first character.</div>'; return; }
+  var h='';
+  chars.forEach(function(c){
+    h+='<div class="queue-card"><h3>'+esc(charLabel(c))+' <span class="badge locked">Locked</span></h3><div class="kv">'
+      +'<img class="thumb" src="'+esc(c.slot1.dataUrl)+'" alt=""> <img class="thumb" src="'+esc(c.slot2.dataUrl)+'" alt=""><br>'
+      +'<b>Who:</b> '+esc(c.type||'Character')+'<br><b>Voice:</b> '+(c.voice?esc(c.voice):'—')+'<br>'
+      +'<b>Slot 1 Headshot (9:16):</b> Uploaded in Character Vault — '+esc(c.slot1.name)+'<br>'
+      +'<b>Slot 2 Body Reference Sheet (single 9:16):</b> Uploaded in Character Vault — '+esc(c.slot2.name)+'<br>'
+      +'<b>Lock rule:</b> Character '+esc(c.letter)+' is reused as Character '+esc(c.letter)+'. Identity, clothing, location and lighting stay frozen from these photos.</div>'
+      +'<button class="btn small danger" data-delchar="'+c.id+'">Remove character</button></div>';
+  });
+  w.innerHTML=h;
+  w.querySelectorAll('[data-delchar]').forEach(function(b){ b.addEventListener('click', function(){ var id=b.getAttribute('data-delchar'); chars=chars.filter(function(c){ return c.id!==id; }); saveChars(); fillCharPickers(); renderVault(); }); });
+}
+</script>
+<script>
+/* ---- Solo forms are built here so all 5 share the exact same fields ---- */
+(function buildSolo(){
+  var wrap=$('soloForms'); var h='';
+  var soloPP={3:true,4:true};
+  var soloBlurb={
+    1:'SCOUT FIRST \u2014 research YouTube live for this mode + topic: what\u2019s viral, what\u2019s popping, what\u2019s rising in Glam\u2019s niche and the lanes next to it, plus what has already popped on her own channel (Glam Hustle Hub, @promptlikeglam). In Package & Post mode, the Scout instead checks her existing live video \u2014 its title, thumbnail, description and numbers exactly as shown \u2014 against what\u2019s popping. Come back and TELL HER first: a ranked report with real titles, channels, view/recency evidence exactly as shown on YouTube, why each is popping (hook, title, thumbnail pattern), and the angle adapted for her women-40+ audience in her voice \u2014 never a copy. She picks the direction, then the farm goes from there. No invented views or stats.',
+    2:'Build the images and the 16:9 thumbnail FROM THE SCOUT\u2019S REPORT \u2014 the patterns on the videos popping right now (face size/expression, 3\u20134 big words, contrast, colour pop, split layouts), in Glam\u2019s brand: sapphire, chrome, pearl, butterflies, plus-size women never slimmed. Never generic. All PNG, in chat; character references 9:16, ultra realistic, real skin and hair texture. Show thumbnails always use BOTH hosts of that show, never mixed.',
+    3:'Write the script in Glam\u2019s voice \u2014 warm, plain English, no tech talk, \u201cboo,\u201d step-by-step, hands-on demo where the mode calls for one. First-30-seconds hook, full spoken script, chapters, shot list. Show modes: real host dialogue, every line its own talking shot. Label every scene with the one Product Presentation choice; scene action only in video prompts \u2014 never describe the character.',
+    4:'Make the video in Muse with the built-in video maker, in chat \u2014 both references in every scene (Reference One headshot, Reference Two chat-made outfit reference sheet, never a scene without both, no character bible). Show episodes: line-by-line talking shots from the approved script in the locked studio. Tutorials/lives Glam records herself: build her filming order + screen-demo checklist instead. Return the video in chat for approval. Never post it.',
+    5:'Title built from the Scout\u2019s popping title patterns (honest, no false claims), full description, chapters, tags, pinned comment, end-screen line and Community post draft \u2014 with Glam\u2019s money path: the video\u2019s product/Payhip link first, AI After 40 Study Companion ($27, payhip.com/b/pdrjW) on podcast episodes, then Join = the $160 Glam Vault (never the free Skool URL). Product launch: ONE code with six uses, code + link right in the post. In Package & Post mode, this agent writes the full package for her existing video and posts it once she approves the package. No price claim unless a live price was verified.'
+  };
+  for(var n=1;n<=5;n++){
+    h+='<div class="solo-form'+(n===1?' active':'')+'" id="solo-'+n+'">'
+      +'<h3>'+n+'. '+esc(AGENTS[n])+'</h3><p>'+esc(soloBlurb[n])+'</p>'
+      +'<label>Locked character</label><select data-charpicker id="s'+n+'_char"></select>'
+      +'<label>Mode</label><select id="s'+n+'_mode">'+MODES.map(function(m){ return '<option>'+esc(m)+'</option>'; }).join('')+'</select>';
+    if(soloPP[n]){
+      h+='<label>Product Presentation — one single choice</label><div class="radio-row">'
+        +'<label class="radio-pill"><input type="radio" name="s'+n+'_pp" value="Wearing the product" checked> Wearing the product</label>'
+        +'<label class="radio-pill"><input type="radio" name="s'+n+'_pp" value="Holding the product"> Holding the product</label></div>'
+        +'<div class="pp-sentence" id="s'+n+'_pp_sentence"></div>';
+    }
+    h+='<label>YouTube format</label><div class="radio-row">'
+      +'<label class="radio-pill"><input type="radio" name="s'+n+'_format" value="Long-form 16:9" checked> Long-form 16:9</label>'
+      +'<label class="radio-pill"><input type="radio" name="s'+n+'_format" value="YouTube Short 9:16"> YouTube Short 9:16</label></div>'
+      +'<label>What is this job built around?</label><select id="s'+n+'_ctype"><option>A product / offer</option><option selected>Images</option><option>A prompt</option><option>My existing video \u2014 already made</option><option>Just a topic / idea</option><option>Something else</option></select>'
+      +'<label>Topic</label><input type="text" id="s'+n+'_topic" placeholder="What is this job about?">'
+      +'<label>Length</label><input type="text" id="s'+n+'_length" placeholder="e.g. 8\u201310 minutes, or 45 seconds">'
+      +'<label>Name and link of what it is built around, when there is one</label><input type="text" id="s'+n+'_product_name" placeholder="Name \u2014 product, prompt, image set, or your video title"><input type="url" id="s'+n+'_product_link" placeholder="Link \u2014 Payhip, your live YouTube video, or leave empty" style="margin-top:8px">'
+      +'<label>Reference video link, when there is one</label><input type="url" id="s'+n+'_ref_link" placeholder="https://youtube.com/\u2026 or a Pinterest pin link">'
+      +'<label>Notes</label><textarea id="s'+n+'_notes" placeholder="Anything Muse must not swap"></textarea>'
+      +'<label>Ready-to-copy prompt for this solo job</label><div class="prompt-out" id="s'+n+'_prompt"></div>'
+      +'<div><button class="btn small" data-copysolo="'+n+'">Copy prompt</button><button class="btn small secondary" data-addsolo="'+n+'">Add solo job to Queue</button></div>'
+      +'<div class="saved-msg" id="s'+n+'_msg"></div></div>';
+  }
+  wrap.innerHTML=h;
+  document.querySelectorAll('#soloTabs button').forEach(function(b){ b.addEventListener('click', function(){
+    document.querySelectorAll('#soloTabs button').forEach(function(x){ x.classList.toggle('active', x===b); });
+    document.querySelectorAll('.solo-form').forEach(function(f){ f.classList.toggle('active', f.id==='solo-'+b.getAttribute('data-solo')); });
+  }); });
+  document.querySelectorAll('select[data-charpicker]').forEach(function(sel){ sel.addEventListener('change', function(){ pickerChanged(sel); }); });
+  for(var k=1;k<=5;k++){ (function(n){
+    ['char','mode','ctype','topic','length','product_name','product_link','ref_link','notes'].forEach(function(f){ var el=$('s'+n+'_'+f); if(el) el.addEventListener('input', function(){ refreshSoloPrompt(n); }); if(el) el.addEventListener('change', function(){ refreshSoloPrompt(n); }); });
+    document.querySelectorAll('input[name="s'+n+'_pp"], input[name="s'+n+'_format"]').forEach(function(r){ r.addEventListener('change', function(){ refreshSoloPrompt(n); var out=$('s'+n+'_pp_sentence'); if(out) out.innerHTML='Exact prompt sentence for this job: <b>'+esc(ppSentence(getPP('s'+n+'_pp')))+'</b>'; }); });
+    var out=$('s'+n+'_pp_sentence'); if(out) out.innerHTML='Exact prompt sentence for this job: <b>'+esc(ppSentence(getPP('s'+n+'_pp')))+'</b>';
+  })(k); }
+  wrap.querySelectorAll('[data-copysolo]').forEach(function(b){ b.addEventListener('click', function(){ var n=b.getAttribute('data-copysolo'); copyText(buildSoloPrompt(getSoloData(Number(n))), $('s'+n+'_msg')); }); });
+  wrap.querySelectorAll('[data-addsolo]').forEach(function(b){ b.addEventListener('click', function(){ var n=Number(b.getAttribute('data-addsolo')); var d=getSoloData(n); d.id=uid(); d.status='queued'; d.createdAt=Date.now(); queue.unshift(d); saveQueue(); $('s'+n+'_msg').textContent='\u2665 Solo job added to the Queue.'; renderQueue(); }); });
+})();
+function slotLines(c){
+  if(!c) return 'Slot 1 Headshot: \u2014 none \u2014\nSlot 2 Body Reference Sheet: \u2014 none \u2014';
+  return 'Slot 1 Headshot: Uploaded in Character Vault \u2014 Character '+c.letter+' Slot 1 ('+c.slot1.name+')\nSlot 2 Body Reference Sheet: Uploaded in Character Vault \u2014 Character '+c.letter+' Slot 2, single 9:16 sheet ('+c.slot2.name+')';
+}
+function rulesBlock(pp){
+  return '\nSTANDING RULES FOR THIS RUN:\n'
+  +'- NOT ALWAYS A PRODUCT: This run is built around what the Intake picked (product / offer, images, a prompt, an existing video, a topic, or something else \u2014 see Built Around in this prompt). Adapt to it: a prompt video leads with the prompt + reveal, an images video leads with the images, only a product video leads with the product and its link. Never force a product angle onto a run that isn\u2019t one.\n'
+  +'- EXISTING VIDEO MODE: If the mode is \u201cPackage & Post My Existing Video\u201d (or Built Around is an existing video), the video is ALREADY MADE \u2014 do not remake it. Scout checks her live/existing video first: watch it, note its current title, thumbnail, description and stats exactly as shown, and compare against what\u2019s popping. Production and Script are skipped. Image & Thumbnail makes a fresh 16:9 thumbnail from the winning patterns. Publish & Monetize writes the full package (title, description, chapters if long-form, tags, pinned comment, end-screen) and presents it to Glam \u2014 then POSTS it only after she approves the package in chat. Her approval of the package IS the post approval for this mode; nothing posts before it.\n'
+  +'- CHANNEL: Glam Hustle Hub (@promptlikeglam) \u2014 beginner-friendly AI for women 40+. Voice: warm, plain everyday English, NO tech talk, a little sassy, step-by-step, calls the audience \u201cboo.\u201d Brand: light sapphire, chrome silver, pearl white, butterflies. Plus-size women are NEVER slimmed down.\n'
+  +'- SCOUT FIRST (Agent 1): Research YouTube LIVE before anything is made \u2014 what\u2019s viral, what\u2019s popping, what\u2019s rising in her niche and adjacent lanes, AND what has already popped on her own channel. Report back to Glam FIRST: ranked, with real titles, channels, and view/recency evidence exactly as shown on YouTube, why each is popping (hook / title / thumbnail pattern), and the angle adapted for her audience in her voice \u2014 never a copy of another creator\u2019s video. She picks the direction; the farm goes from there. NO invented views, stats or trends \u2014 if it wasn\u2019t seen on YouTube, it isn\u2019t in the report.\n'
+  +'- TREND-BASED IMAGES & THUMBNAILS (Agent 2): Image concepts and the 16:9 thumbnail are built FROM the Scout report\u2019s viral patterns (face size/expression, 3\u20134 big words, contrast, colour pop, split/before-and-after layouts when those are winning) \u2014 never a generic template. Her brand and her faces only. Show thumbnails use BOTH hosts of that show (AI After 40 = Renee + Marcus; The Prompt Breakdown = Simone + Desi) and hosts NEVER cross shows.\n'
+  +'- Product Presentation is one choice only, never both: '+ppSentence(pp)+' Never wearing an outfit while holding that same outfit on a hanger. If both are needed, use separate scenes, never the same shot.\n'
+  +'- Look lock in chat first: put the locked character in the exact look from the picked angle in chat, check face match + outfit match, then make ONE single 9:16 outfit reference sheet (front, profile, three-quarter on the same photo) in chat, as PNG.\n'
+  +'- Every image Muse creates is PNG, not webp. Character/outfit references are 9:16. The YouTube thumbnail is 16:9 PNG.\n'
+  +'- Production (Agent 4): Muse\u2019s built-in video maker in chat \u2014 no outside video app. Reference One: headshot. Reference Two: the chat-made outfit reference sheet. Both references in EVERY scene; never a scene without both. No character bible. Show episodes: every approved script line is its own real talking shot, in the show\u2019s locked studio, hosts visibly talking. Tutorials/lives Glam records: deliver a filming order + screen-demo checklist instead.\n'
+  +'- Scene prompt shape ONLY: "Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] '+ppSentence(pp)+'" Never describe her \u2014 no face, hair, skin, body or outfit description.\n'
+  +'- Scenes: 16:9 for long-form, 9:16 for a Short. Script starts with a first-30-seconds hook, with chapter breaks for long-form. AI After 40 tagline: \u201cAI made simple \u2014 for life and business after 40.\u201d The Prompt Breakdown: ONE prompt recipe per episode.\n'
+  +'- MONEY PATH (Agent 5, in the description, in this order): the video\u2019s own product / Payhip link first; AI After 40 episodes also link the Study Companion ($27, payhip.com/b/pdrjW); then Join = the $160 Glam Vault \u2014 NEVER the free Skool URL for Join. Product launch posts carry ONE code with six uses, with the code and the Payhip link right in the post. Honest title from the Scout\u2019s popping patterns; no price, discount or sale claim unless a live price was actually verified.\n'
+  +'- Return the finished video (and thumbnail for long-form) in chat for approval. Do NOT post, publish or share it. Posting/publishing needs Glam\u2019s separate approval.';
+}
+function jobHeader(title, d){
+  var c=findChar(d.characterId);
+  return title+'\nRun this exact job. Do not swap any details.\n\n'+'Channel: Glam Hustle Hub (@promptlikeglam) \u2014 beginner-friendly AI for women 40+\n'+'Audience & voice: warm, plain English, no tech talk, a little sassy, step-by-step, calls them \u201cboo\u201d\n'
+  +'Character: '+charLabel(c)+(c&&c.type?' ('+c.type+')':'')+'\n'+slotLines(c)+'\n'
+  +'Voice: '+((c&&c.voice)?c.voice:'\u2014')+'\n'
+  +'Mode: '+(d.mode||'\u2014')+'\n'
+  +'Product Presentation: '+(d.pp||'\u2014 no Product Presentation picked \u2014')+' \u2014 '+ppSentence(d.pp)+'\n'
+  +'YouTube Format: '+(d.format||'\u2014')+'\n'
+  +'Topic: '+(d.topic||'\u2014')+'\n'
+  +'Length: '+(d.length||'\u2014')+'\n'
+  +'Built Around: '+(d.ctype||'\u2014')+'\n'+'Name / Link: '+(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'\n'
+  +'Reference Video Link: '+(d.refLink||'\u2014 none \u2014')+'\n'
+  +'Notes: '+(d.notes||'\u2014');
+}
+function buildFullPrompt(d){ return jobHeader('YOUTUBE FARM \u2014 FULL FARM RUN (all 5 agents, in order)', d)+rulesBlock(d.pp); }
+function buildSoloPrompt(d){ return jobHeader('YOUTUBE FARM \u2014 SOLO JOB: Agent '+d.agent+' \u2014 '+AGENTS[d.agent], d)+'\n\nRun ONLY this one agent job, on its own \u2014 not a full farm run.'+rulesBlock(d.pp); }
+function getSoloData(n){
+  return {kind:'solo', agent:n, characterId:($('s'+n+'_char')?$('s'+n+'_char').value:''), mode:$('s'+n+'_mode').value, pp:(n===3||n===4)?getPP('s'+n+'_pp'):'', format:getRadio('s'+n+'_format'), ctype:($('s'+n+'_ctype')?$('s'+n+'_ctype').value:''), topic:$('s'+n+'_topic').value.trim(), length:$('s'+n+'_length').value.trim(), productName:$('s'+n+'_product_name').value.trim(), productLink:$('s'+n+'_product_link').value.trim(), refLink:$('s'+n+'_ref_link').value.trim(), notes:$('s'+n+'_notes').value.trim()};
+}
+function refreshSoloPrompt(n){ var el=$('s'+n+'_prompt'); if(el) el.textContent=buildSoloPrompt(getSoloData(n)); }
+function refreshAllSoloPrompts(){ for(var n=1;n<=5;n++) refreshSoloPrompt(n); }
+function copyText(text, msgEl){
+  function done(){ if(msgEl) msgEl.textContent='\u2665 Prompt copied \u2014 paste it into a new chat and Muse runs it.'; }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(); }); } else fallback();
+  function fallback(){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); done(); }
+}
+$('in_save').addEventListener('click', function(){
+  var d={kind:'full', agent:0, id:uid(), status:'queued', createdAt:Date.now(), characterId:$('in_char').value==='__create'?'':$('in_char').value, mode:$('in_mode').value, pp:getPP('in_pp'), format:getRadio('in_format'), topic:$('in_topic').value.trim(), length:$('in_length').value.trim(), ctype:getRadio('in_ctype'), productName:$('in_product_name').value.trim(), productLink:$('in_product_link').value.trim(), refLink:$('in_ref_link').value.trim(), notes:$('in_notes').value.trim()};
+  queue.unshift(d); saveQueue(); $('in_msg').textContent='\u2665 Full YouTube farm run saved to the Queue. Nothing has started \u2014 press Run in Chat on its Queue card when you are ready.'; renderQueue();
+});
+bindPP('in_pp','in_pp_sentence');
+function statusBadge(s){ return '<span class="badge '+esc(s)+'">'+esc(s).toUpperCase()+'</span>'; }
+function renderQueue(){
+  var w=$('queueList'); if(!w) return;
+  if(!queue.length){ w.innerHTML='<div class="empty">The Queue is empty. No test runs or sample rows ship with this dashboard.<br>Save a full run from Video Intake, or add a solo job from Solo Agents.</div>'; $('runCardWrap').innerHTML=''; return; }
+  var h='';
+  queue.forEach(function(d){
+    var c=findChar(d.characterId);
+    h+='<div class="queue-card"><h3>'+(d.kind==='full'?'Full Farm Run':'Solo \u2014 Agent '+d.agent+' '+esc(AGENTS[d.agent]||''))+' '+statusBadge(d.status)+'</h3>'
+      +'<div class="kv"><b>Character:</b> '+esc(charLabel(c))+'<br><b>Mode:</b> '+esc(d.mode||'\u2014')+'<br>'
+      +'<b>Product Presentation:</b> '+esc(d.pp||'\u2014 none \u2014')+' \u2014 <b>'+esc(ppSentence(d.pp))+'</b><br>'
+      +'<b>YouTube Format:</b> '+esc(d.format||'\u2014')+'<br><b>Topic:</b> '+esc(d.topic||'\u2014')+'<br><b>Length:</b> '+esc(d.length||'\u2014')+'<br>'
+      +'<b>Built Around:</b> '+esc(d.ctype||'\u2014')+'<br><b>Name / Link:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'</div>'
+      +'<div class="status-row"><span style="font-family:Space Mono,monospace;font-weight:bold;font-size:12.5px">STATUS (label only, runs nothing):</span>'
+      +['queued','working','done'].map(function(s){ return '<button data-status="'+s+'" data-qid="'+d.id+'" class="'+(d.status===s?'on':'')+'">'+s+'</button>'; }).join('')+'</div>'
+      +'<button class="btn small" data-run="'+d.id+'">\u25b6 Run in Chat</button> <button class="btn small danger" data-delq="'+d.id+'">Delete</button></div>';
+  });
+  w.innerHTML=h;
+  w.querySelectorAll('[data-status]').forEach(function(b){ b.addEventListener('click', function(){ var item=queue.find(function(x){ return x.id===b.getAttribute('data-qid'); }); if(item){ item.status=b.getAttribute('data-status'); saveQueue(); renderQueue(); } }); });
+  w.querySelectorAll('[data-delq]').forEach(function(b){ b.addEventListener('click', function(){ queue=queue.filter(function(x){ return x.id!==b.getAttribute('data-delq'); }); saveQueue(); renderQueue(); }); });
+  w.querySelectorAll('[data-run]').forEach(function(b){ b.addEventListener('click', function(){ openRunCard(b.getAttribute('data-run')); }); });
+}
+function openRunCard(id){
+  var d=queue.find(function(x){ return x.id===id; }); if(!d) return;
+  d.status='working'; saveQueue(); renderQueue();
+  var c=findChar(d.characterId);
+  var prompt=(d.kind==='full')?buildFullPrompt(d):buildSoloPrompt(d);
+  var thumbs=c?('<img class="thumb" src="'+esc(c.slot1.dataUrl)+'" alt=""> <img class="thumb" src="'+esc(c.slot2.dataUrl)+'" alt="">'):'<span class="thumb-missing">Slot 1<br>none</span> <span class="thumb-missing">Slot 2<br>none</span>';
+  $('runCardWrap').innerHTML='<div class="card" style="margin-top:15px"><h2>Run in Chat \u2014 ready to copy</h2>'
+    +'<div class="kv">'+thumbs+'<br><b>Character:</b> '+esc(charLabel(c))+'<br>'
+    +'<b>Slot 1 Headshot (9:16):</b> '+(c?('Uploaded in Character Vault \u2014 '+esc(c.slot1.name)):'\u2014 none \u2014')+'<br>'
+    +'<b>Slot 2 Body Reference Sheet (single 9:16):</b> '+(c?('Uploaded in Character Vault \u2014 '+esc(c.slot2.name)):'\u2014 none \u2014')+'<br>'
+    +'<b>Voice:</b> '+esc((c&&c.voice)||'\u2014')+'<br><b>Mode:</b> '+esc(d.mode||'\u2014')+'<br>'
+    +'<b>Product Presentation:</b> '+esc(d.pp||'\u2014 none \u2014')+' \u2014 <b>'+esc(ppSentence(d.pp))+'</b><br>'
+    +'<b>YouTube Format:</b> '+esc(d.format||'\u2014')+'<br><b>Topic:</b> '+esc(d.topic||'\u2014')+'<br><b>Length:</b> '+esc(d.length||'\u2014')+'<br>'
+    +'<b>Built Around:</b> '+esc(d.ctype||'\u2014')+'<br><b>Name / Link:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'<br>'
+    +'<b>Reference Video Link:</b> '+esc(d.refLink||'\u2014 none \u2014')+'</div>'
+    +'<label>The complete prompt \u2014 nothing swapped</label><div class="prompt-out" id="runPromptOut"></div>'
+    +'<div><button class="btn" id="runCopyBtn">Copy prompt</button></div><div class="saved-msg" id="runMsg"></div>'
+    +'<p class="hint">This run is now marked <b>working</b>. Paste the copied prompt into a new chat and Muse runs that exact run. There is no scheduled pickup.</p></div>';
+  $('runPromptOut').textContent=prompt;
+  $('runCopyBtn').addEventListener('click', function(){ copyText(prompt, $('runMsg')); });
+  $('runCardWrap').scrollIntoView({behavior:'smooth', block:'start'});
+}
+/* init */
+fillCharPickers(); renderVault(); renderQueue(); refreshAllSoloPrompts(); updateCounts();
+</script>
+
+<script>
+(function(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var glyphs=['✦','✧','★','▶'], colors=['#37e6ff','#ff8fb8','#c9a7ff','#fff','#7ee7ff'], last=0;
+  document.addEventListener('pointermove', function(e){
+    var now=Date.now(); if(now-last<55) return; last=now;
+    var s=document.createElement('span'); s.className='trail-star';
+    s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+    s.style.left=e.clientX+'px'; s.style.top=e.clientY+'px';
+    s.style.color=colors[Math.floor(Math.random()*colors.length)];
+    document.body.appendChild(s);
+    setTimeout(function(){ s.remove(); }, 850);
+    if(Math.random()<0.28){
+      var b=document.createElement('span'); b.className='trail-star'; b.textContent='✦';
+      b.style.left=(e.clientX+(Math.random()*36-18))+'px'; b.style.top=(e.clientY+(Math.random()*36-18))+'px';
+      b.style.color=colors[Math.floor(Math.random()*colors.length)]; b.style.fontSize='9px';
+      document.body.appendChild(b); setTimeout(function(){ b.remove(); }, 850);
+    }
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
