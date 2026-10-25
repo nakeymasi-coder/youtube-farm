@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff2e88;--hot:#ff5da2;--hot-light:#ffb3d1;--cherry:#e0214f;--cherry-dark:#a80320;--deep:#7a0c26;--mint:#d9f7e6;--mint-2:#f4fff8;--mint-dark:#8fe3b6;--lcd-line:#57b98a;--ink:#26221f;--soft:#6d5a61;--teal:#123f2e}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS",Verdana,sans-serif;background:radial-gradient(circle at 14px 14px, rgba(255,255,255,.4) 3px, transparent 4px) 0 0/46px 46px, linear-gradient(180deg,#ff77ab,#ff4d94);color:var(--ink);min-height:100vh;padding:34px 12px 44px}
+.device{max-width:1140px;margin:0 auto;background:linear-gradient(180deg,#ff6fae 0%,#ff3d8e 55%,var(--cherry) 100%);border-radius:52px;padding:24px 26px 20px;position:relative;box-shadow:0 26px 55px rgba(90,0,30,.45), inset 0 4px 0 rgba(255,255,255,.65), inset 0 -12px 28px rgba(120,0,35,.35);border:4px solid #ffd0e2}
+.device:before{content:"";position:absolute;top:-17px;left:50%;transform:translateX(-50%);width:200px;height:32px;border-radius:18px;background:linear-gradient(180deg,#ffe3ef,#ff9ec4);border:3px solid #fff;box-shadow:0 4px 10px rgba(90,0,30,.35)}
+.shell-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 6px 16px}
+.shell-brand{font-family:"Press Start 2P",monospace;color:#fff;font-size:clamp(18px,3.6vw,32px);letter-spacing:1px;text-shadow:3px 3px 0 rgba(140,0,45,.55);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.os-pill{font-family:"Space Mono",monospace;font-size:12px;font-weight:bold;background:var(--cherry-dark);color:#ffd9e6;border:2px solid #ff8fbe;border-radius:999px;padding:7px 13px;letter-spacing:1px}
+.shell-pills{display:flex;gap:10px;flex-wrap:wrap}
+.shell-pill{font-family:"Space Mono",monospace;font-size:12px;font-weight:bold;background:var(--cherry-dark);color:#fff;border:2px solid #ff8fbe;border-radius:999px;padding:8px 14px;letter-spacing:1px;display:inline-flex;align-items:center;gap:8px}
+.shell-pill .dot{width:10px;height:10px;border-radius:50%;background:#3dff7a;box-shadow:0 0 8px #3dff7a}
+.lcd{background:repeating-linear-gradient(0deg, rgba(18,90,55,.06) 0 1px, transparent 1px 26px),repeating-linear-gradient(90deg, rgba(18,90,55,.06) 0 1px, transparent 1px 26px),var(--mint);border-radius:24px;border:5px solid var(--deep);box-shadow:inset 0 0 0 3px #2e7d52, inset 0 12px 30px rgba(20,120,80,.18);padding:20px 18px 24px;position:relative}
+.notice{background:#fff8f9;border:2.5px dashed #2e7d52;border-radius:14px;padding:13px 15px;font-size:14.5px;line-height:1.55;margin:0 0 14px}
+.notice b{color:var(--cherry-dark)}
+nav.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin:0 0 18px}
+nav.tabs button{border:3px solid var(--deep);background:linear-gradient(180deg,#ff77ab,var(--pink));color:#fff;padding:15px 6px;border-radius:14px;font-size:clamp(11px,1.6vw,15px);cursor:pointer;font-family:"Space Mono",monospace;font-weight:bold;letter-spacing:.5px;box-shadow:0 5px 0 var(--deep);text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:7px}
+nav.tabs button:active{transform:translateY(3px);box-shadow:0 2px 0 var(--deep)}
+nav.tabs button.active{background:linear-gradient(180deg,#e0214f,#b30f36)}
+.count-badge{background:var(--mint);color:var(--teal);border-radius:50%;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;padding:0 5px}
+.count-badge:empty{display:none}
+section.page{display:none}section.page.active{display:block}
+.card{background:var(--mint-2);border:2.5px solid var(--lcd-line);border-radius:16px;padding:18px;margin:0 0 15px;box-shadow:0 3px 0 rgba(30,140,95,.3)}
+.card h2{margin:0 0 10px;font-size:16px;color:var(--teal);font-family:"Press Start 2P",monospace;line-height:1.6}
+.card h3{margin:16px 0 7px;font-size:16px;color:var(--cherry-dark);font-family:"Space Mono",monospace}
+.card p,.card li{line-height:1.55;font-size:14.8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:11px}
+.mini{border:2px solid var(--lcd-line);border-radius:12px;padding:12px;background:#fff}
+.mini h4{margin:0 0 5px;font-size:15px;color:var(--cherry);font-family:"Space Mono",monospace}
+.mini p{margin:0;font-size:14px}
+label{display:block;font-weight:bold;margin:14px 0 5px;font-size:14.5px;color:var(--cherry-dark);font-family:"Space Mono",monospace}
+label:first-child{margin-top:0}
+input[type=text],input[type=url],select,textarea{width:100%;padding:10px 11px;border:2px solid var(--lcd-line);border-radius:10px;font-size:15px;font-family:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:84px;resize:vertical}
+.hint{font-size:13px;color:var(--soft);margin-top:4px;line-height:1.45}
+.btn{display:inline-block;border:2.5px solid var(--deep);cursor:pointer;padding:11px 18px;border-radius:12px;font-size:14px;font-family:"Space Mono",monospace;font-weight:bold;background:linear-gradient(180deg,#ff5da2,var(--pink));color:#fff;margin:6px 6px 6px 0;box-shadow:0 4px 0 var(--deep);text-transform:uppercase}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--deep)}
+.btn.secondary{background:#fff;color:var(--cherry-dark)}
+.btn.small{padding:8px 13px;font-size:12.5px}
+.btn.danger{background:#fff;color:var(--cherry);border-color:var(--cherry);box-shadow:0 4px 0 var(--cherry)}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-pill{border:2.5px solid var(--lcd-line);border-radius:999px;padding:10px 15px;cursor:pointer;background:#fff;font-size:14.5px;font-weight:bold;margin:0}
+.radio-pill input{margin-right:6px;accent-color:var(--pink)}
+.radio-pill:has(input:checked){background:var(--hot-light);border-color:var(--pink)}
+.pp-sentence{background:#fff;border:2px dashed var(--pink);border-radius:12px;padding:10px 12px;font-size:14.5px;margin-top:8px}
+.pp-sentence b{color:var(--cherry-dark)}
+.slotbox{border:2.5px dashed var(--pink);border-radius:14px;padding:12px;text-align:center;background:#fff}
+.slotframe{width:132px;aspect-ratio:9/16;margin:0 auto 10px;border-radius:12px;background:var(--mint);border:2px solid var(--lcd-line);display:flex;align-items:center;justify-content:center;overflow:hidden;color:var(--soft);font-size:12.5px;padding:6px;text-align:center}
+.slotframe.wide{width:220px;aspect-ratio:16/9}
+.slotframe img{width:100%;height:100%;object-fit:cover;display:block}
+.badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#ffe1ec;color:var(--soft);border:1.5px solid var(--hot-light);font-family:"Space Mono",monospace;text-transform:uppercase}
+.badge.locked{background:#c9fbe8;color:#0a6b43;border-color:var(--lcd-line)}
+.badge.working{background:#ff5da2;color:#fff;border-color:var(--deep)}
+.badge.done{background:#c9fbe8;color:#0a6b43;border-color:var(--lcd-line)}
+.badge.queued{background:#fff;color:var(--cherry-dark);border-color:var(--pink)}
+.empty{border:2.5px dashed var(--pink);border-radius:14px;padding:24px;text-align:center;color:var(--soft);background:#fff;font-size:14.8px;line-height:1.55}
+.thumb{width:78px;aspect-ratio:9/16;object-fit:cover;border-radius:10px;border:2px solid var(--lcd-line);vertical-align:top}
+.thumb-missing{width:78px;aspect-ratio:9/16;border-radius:10px;border:2px dashed var(--pink);display:inline-flex;align-items:center;justify-content:center;color:var(--soft);font-size:11px;text-align:center;padding:4px;vertical-align:top;background:#fff}
+.kv{font-size:14.8px;line-height:1.65}.kv b{color:var(--cherry-dark)}
+.prompt-out{white-space:pre-wrap;background:#10281e;color:#c9fbe8;border-radius:12px;padding:14px;font-size:13.5px;line-height:1.55;font-family:"Space Mono",monospace;word-break:break-word}
+.codebox{background:#10281e;color:#c9fbe8;border-radius:12px;padding:13px 14px;font-family:"Space Mono",monospace;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.queue-card{border:2.5px solid var(--lcd-line);border-radius:14px;padding:15px;margin-bottom:13px;background:#fff;box-shadow:0 3px 0 rgba(30,140,95,.3)}
+.queue-card h3{margin:0 0 6px;font-size:16px;color:var(--cherry);font-family:"Space Mono",monospace}
+.queue-card .kv{border-top:2px dashed #c9c9c9;padding-top:9px;margin-top:8px}
+.status-row{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0;align-items:center}
+.status-row button{border:2px solid #2e7d52;background:var(--mint);color:var(--teal);border-radius:9px;padding:7px 13px;font-family:"Space Mono",monospace;font-weight:bold;cursor:pointer;font-size:12.5px;text-transform:uppercase;box-shadow:0 3px 0 #2e7d52}
+.status-row button.on{background:var(--pink);color:#fff;border-color:var(--deep);box-shadow:0 3px 0 var(--deep)}
+.agent-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.agent-tabs button{border:2px solid var(--deep);background:#fff;padding:9px 12px;border-radius:999px;cursor:pointer;font-family:"Space Mono",monospace;font-size:13px;font-weight:bold;color:var(--cherry-dark)}
+.agent-tabs button.active{background:var(--pink);color:#fff}
+.solo-form{display:none}.solo-form.active{display:block}
+.shell-bottom{padding:18px 10px 2px}.round-btns{display:flex;gap:clamp(20px,6vw,54px);justify-content:center}
+.round-wrap{display:flex;flex-direction:column;align-items:center;gap:7px}
+.round-wrap span{font-family:"Press Start 2P",monospace;font-size:9px;color:#fff;letter-spacing:.5px;text-shadow:1.5px 1.5px 0 rgba(140,0,45,.5)}
+.shell-btn{width:62px;height:62px;border-radius:50%;border:3px solid #ffd0e2;cursor:pointer;background:radial-gradient(circle at 32% 28%, #ffc7dd 0%, #ff77ab 42%, #e0214f 100%);box-shadow:0 6px 0 rgba(122,12,38,.75), inset 0 -6px 12px rgba(122,12,38,.45)}
+.shell-btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(122,12,38,.75)}
+.footer-note{text-align:center;color:#fff;font-size:13px;margin-top:14px;text-shadow:0 1px 0 rgba(120,0,35,.6);line-height:1.5;font-family:"Space Mono",monospace}
+.err{color:var(--cherry);font-weight:bold;font-size:13.5px;margin-top:6px;min-height:18px}
+.saved-msg{color:#0a6b43;font-weight:bold;font-size:14px;min-height:20px}
+ol.steps li{margin-bottom:7px}
+@media (max-width:640px){nav.tabs{grid-template-columns:repeat(2,1fr)}.device{padding:18px 12px 14px;border-radius:36px}}
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="shell-top"><div class="shell-brand">▶ YOUTUBE FARM <span class="os-pill">Y2K GIGAPET OS v1.0</span></div><div class="shell-pills"><span class="shell-pill"><span class="dot"></span>LONG-FORM 16:9 + SHORTS 9:16</span><span class="shell-pill">MUSE CHAT BRIDGE: READY</span></div></div>
+  <div class="lcd">
+    <div class="notice"><b>Please read — what this dashboard does NOT do:</b> This dashboard by itself does <b>not</b> browse YouTube or Pinterest, generate images, or run VideoExpress when you submit a form. Those steps are done by <b>Muse in chat after submission</b>, using Run in Chat. The dashboard does <b>not</b> promise automatic execution from the dashboard alone, and <b>nothing is auto-posted or auto-published to YouTube</b>.</div>
+    <nav class="tabs" id="mainTabs">
+      <button data-page="home" class="active">1. Home</button>
+      <button data-page="intake">2. Video Intake</button>
+      <button data-page="vault">3. Vault <span class="count-badge" id="vaultCount"></span></button>
+      <button data-page="solo">4. Solo Agents</button>
+      <button data-page="queue">5. Queue <span class="count-badge" id="queueCount"></span></button>
+    </nav>
+
+    <!-- HOME -->
+    <section class="page active" id="page-home">
+      <div class="card">
+        <h2>How the YouTube farm works</h2>
+        <p>The farm takes a run from a proven YouTube topic — and a Pinterest outfit or product when the video needs one — to a finished YouTube video, and brings the video back to you in chat for approval. One dashboard holds it all: the full Video Intake Form, the Character Vault for locked characters, solo forms for all 5 agents, and the Queue for every run and solo job.</p>
+        <p><b>YouTube difference:</b> Long-form videos are built <b>16:9</b> for watch pages. YouTube Shorts are built <b>9:16</b>. Character references stay <b>9:16</b> either way — headshots and body reference sheets are portrait locks. Thumbnails are <b>16:9 (1280 × 720)</b>.</p>
+        <h3>The 5 agents, in order</h3>
+        <div class="grid">
+          <div class="mini"><h4>1. Research Scout</h4><p>Searches <b>YouTube</b> for proven topics, titles, hooks and angles in the chosen mode, and <b>Pinterest</b> for outfits and products — especially products available on Amazon. Works from <b>guest view, no sign-in needed</b>, just looking. Looks for outfits/products with an Amazon affiliate link. Does <b>not</b> go to Amazon to check price or availability at this step, and does not copy another creator's video — it reports the angle, not a rip.</p></div>
+          <div class="mini"><h4>2. Image Agent</h4><p>Creates the person and avatar images. <b>Ultra realistic, real skin texture and real hair texture.</b> Creates the character references, the outfit reference and the outfit reference sheet — all in chat, all <b>PNG</b>, all <b>9:16</b> — plus the <b>16:9 YouTube thumbnail</b> image, also PNG.</p></div>
+          <div class="mini"><h4>3. Story &amp; Script Agent</h4><p>Writes the <b>first-30-seconds hook</b>, the full spoken script, chapter breaks and the shot list. Labels every scene with the run's one Product Presentation choice. Writes <b>scene action only</b> for VideoExpress prompts, never a description of the character.</p></div>
+          <div class="mini"><h4>4. VideoExpress Agent</h4><p>Makes the video in VideoExpress at <b>app.videoexpress.ai</b> using the Consistent Character workflow below. Long-form scenes are composed <b>16:9</b>, Shorts scenes <b>9:16</b>, always from the same two references. Returns the finished video in chat for approval. <b>Never posts or publishes it.</b></p></div>
+          <div class="mini"><h4>5. Title, Description &amp; SEO Agent</h4><p>The YouTube version of the Caption Agent. Writes the click-worthy <b>title</b> (honest, no false claims), the full <b>description</b>, <b>chapters / timestamps</b>, tags, hashtags, a pinned comment and an end-screen / next-video line — plus a Shorts caption if the video is cut down. <b>No price, discount or sale claim unless a live price was actually verified.</b></p></div>
+        </div>
+        <h3>The 7 modes</h3>
+        <p>Mode is a setting, not a separate farm. It changes the research search, the script structure, the shots, the thumbnail and the title.</p>
+        <div class="grid">
+          <div class="mini"><p><b>1.</b> Get Ready With Me</p></div>
+          <div class="mini"><p><b>2.</b> Spend The Day With Me</p></div>
+          <div class="mini"><p><b>3.</b> Tutorials in general</p></div>
+          <div class="mini"><p><b>4.</b> Makeup tutorials</p></div>
+          <div class="mini"><p><b>5.</b> Hair tutorials</p></div>
+          <div class="mini"><p><b>6.</b> Product reviews</p></div>
+          <div class="mini"><p><b>7.</b> Cooking videos</p></div>
+        </div>
+        <h3>The Product Presentation rule — either / or, never both</h3>
+        <p>Every run picks <b>one single choice</b>, right after Mode: <b>Wearing the product</b> or <b>Holding the product</b>.</p>
+        <div class="pp-sentence">Wearing run — every prompt ends: <b>Wearing the product, not holding it.</b></div>
+        <div class="pp-sentence">Holding run — every prompt ends: <b>Holding the product, not wearing it.</b></div>
+        <p>Never wearing an outfit while holding that same outfit on a hanger. Reject and regenerate any image that shows both. If a video needs both, holding first and wearing later — use <b>separate scenes</b>, never the same shot.</p>
+        <h3>The thumbnail rule</h3>
+        <p>One thumbnail per long-form video: the locked character's real face from her references, <b>3–4 big words max</b>, readable on a phone, no tiny text, no face that isn't hers. The thumbnail is made in chat as a <b>16:9 PNG</b> and returned with the video for your approval — never uploaded without it.</p>
+        <h3>How Run in Chat works</h3>
+        <p>Every Queue run gets a <b>Run in Chat</b> button. Pressing it sets that run to <b>working</b> and opens a Run in Chat card showing the locked character, Slot 1 headshot and Slot 2 single 9:16 body reference sheet status and location with thumbnails when uploaded, the voice, the mode, the Product Presentation choice and its exact prompt sentence, the YouTube format, the topic, the length, the product name and link, and the reference video link when present. The card has a <b>Copy prompt</b> button. You paste that prompt into a new chat and Muse runs that exact run — nothing swapped. <b>There is no scheduled pickup. Do not build one unless asked for separately.</b></p>
+      </div>
+      <div class="card">
+        <h2>The workflow, step by step</h2>
+        <ol class="steps">
+          <li><b>Pick the angle — and the outfit/product when there is one.</b> Research Scout finds a proven YouTube angle for the mode and topic, and the Pinterest outfit/product with an Amazon affiliate link. Copy its picture.</li>
+          <li><b>Lock the outfit in chat, not in VideoExpress.</b> Using the locked character's reference photos, put that character in that exact outfit in chat first. Check it for face match and outfit match.</li>
+          <li><b>Make the outfit reference sheet in chat.</b> From that approved outfit photo, create one single 9:16 reference sheet with front, profile and three-quarter shots of her in that outfit, all on the same photo. Save it as <b>PNG</b>.</li>
+          <li><b>Upload to VideoExpress.</b> Slot 1 is her headshot. Slot 2 is that chat-made outfit reference sheet. <b>Never leave Slot 2 empty.</b></li>
+          <li><b>Create scenes from that headshot plus sheet lock, in script order</b> — 16:9 for long-form, 9:16 for Shorts.</li>
+          <li><b>Make the thumbnail in chat</b> — 16:9 PNG, her face, 3–4 big words.</li>
+          <li><b>Export and return the video + thumbnail in chat for approval.</b> Do not post, publish or share it.</li>
+        </ol>
+        <h3>VideoExpress — Consistent Character, every time</h3>
+        <ol class="steps">
+          <li>Create with AI, go to the first option and click <b>Consistent Character</b>, then use <b>Consistent Character Reference</b>.</li>
+          <li><b>Reference One:</b> headshot. <b>Reference Two:</b> the chat-made outfit reference sheet.</li>
+          <li>Make sure Consistent Character is selected, then create image.</li>
+          <li>No character bible is needed. The reference photos are the lock. Do not paste a bible into the scene prompts.</li>
+        </ol>
+        <h3>Use this prompt shape for every scene — and nothing else about her</h3>
+        <div class="codebox">Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] Wearing the product, not holding it.</div>
+        <p>Never describe her in the prompt. No face, hair, skin, body or outfit description. Describing her overrides the references and creates a different girl. The last line swaps to the holding version when that is the run's choice.</p>
+      </div>
+      <div class="card">
+        <h2>Standing rules</h2>
+        <p><b>Image format:</b> Every image Muse creates must be <b>PNG, not webp</b> — character images, outfit references, outfit reference sheets and thumbnails. Your own uploaded Vault photos stay as you saved them, <b>JPG or PNG</b>. Webp uploads are rejected with a clear message.</p>
+        <p><b>Characters:</b> Ultra realistic, with real skin texture and real hair texture. Character A is reused as Character A, Character B as Character B. Within one video, identity, clothing, location and lighting stay frozen from the uploaded reference photos.</p>
+        <p><b>Permissions:</b> Standing upload permission for VideoExpress — Muse has full permission to upload to VideoExpress for farm runs without stopping to ask each time. That covers headshots, body reference sheets, chat-made outfit references, outfit reference sheets and scene files. That permission does <b>not</b> cover posting or publishing to YouTube. Those still need your separate approval. Sign-in screens and Terms screens still pause for you.</p>
+        <p><b>Billing:</b> VideoExpress billing is usage based, not credits. Do not pause a run for credits. Keep going.</p>
+        <p><b>Queue rule:</b> The Queue status button only changes the label to queued, working or done. It does not run YouTube/Pinterest research, image generation or VideoExpress. Real execution is triggered from chat, using Run in Chat.</p>
+      </div>
+    </section>
+
+    <!-- VIDEO INTAKE -->
+    <section class="page" id="page-intake">
+      <div class="card">
+        <h2>Video Intake Form — full YouTube farm run</h2>
+        <p>Saving this form adds one full run to the Queue. It does not start research, image generation or VideoExpress — that happens in chat after you press Run in Chat on the Queue card.</p>
+        <label>1. Locked character</label>
+        <select id="in_char"></select>
+        <div class="hint">Pick a locked character from the Vault, or choose “Create a new character” to go to the Vault and add one. A character is only locked when both Vault slots are filled.</div>
+        <label>2. Mode</label>
+        <select id="in_mode">
+          <option>Get Ready With Me</option><option>Spend The Day With Me</option><option>Tutorials in general</option><option>Makeup tutorials</option><option>Hair tutorials</option><option>Product reviews</option><option>Cooking videos</option>
+        </select>
+        <label>3. Product Presentation — right after Mode, one single choice</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="in_pp" value="Wearing the product" checked> Wearing the product</label>
+          <label class="radio-pill"><input type="radio" name="in_pp" value="Holding the product"> Holding the product</label>
+        </div>
+        <div class="pp-sentence" id="in_pp_sentence"></div>
+        <label>4. Topic</label>
+        <input type="text" id="in_topic" placeholder="e.g. Sunday reset GRWM while I share my morning routine">
+        <label>5. Length</label>
+        <input type="text" id="in_length" placeholder="e.g. 8–10 minutes long-form, or 45 seconds for a Short">
+        <label>6. YouTube format</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="in_format" value="Long-form 16:9" checked> Long-form 16:9</label>
+          <label class="radio-pill"><input type="radio" name="in_format" value="YouTube Short 9:16"> YouTube Short 9:16</label>
+        </div>
+        <div class="hint">Long-form = 16:9 scenes + a 16:9 thumbnail. Short = 9:16 scenes, no thumbnail needed. Character references stay 9:16 either way.</div>
+        <label>7. Product name and product link, when there is one</label>
+        <input type="text" id="in_product_name" placeholder="Product name">
+        <input type="url" id="in_product_link" placeholder="https://… product link" style="margin-top:8px">
+        <label>8. Reference video link, when there is one</label>
+        <input type="url" id="in_ref_link" placeholder="https://youtube.com/… or a Pinterest pin link">
+        <div class="hint">A reference is for the angle, pacing and structure — never to copy another creator's video, script or thumbnail.</div>
+        <label>9. Notes</label>
+        <textarea id="in_notes" placeholder="Working title or keyword, must-say lines, sponsor / affiliate notes, anything Muse must not swap"></textarea>
+        <div><button class="btn" id="in_save">♥ Save full run to Queue</button></div>
+        <div class="saved-msg" id="in_msg"></div>
+      </div>
+    </section>
+
+    <!-- CHARACTER VAULT -->
+    <section class="page" id="page-vault">
+      <div class="card">
+        <h2>Character Vault — locked characters</h2>
+        <p>One record per locked character. <b>Every locked character must have both slots.</b> A character is <b>not locked until both are filled</b>. You can upload a character you already have outside this dashboard — headshot for Slot 1 and a single 9:16 body reference sheet for Slot 2 — instead of only creating a character inside the dashboard.</p>
+        <p><b>Slot 1 — Headshot:</b> one photo, 9:16.<br><b>Slot 2 — Body reference sheet:</b> one <b>single</b> 9:16 photo, not separate photos, with front, side view, profile and three-quarter shots all on that same photo.</p>
+        <p>Uploads are accepted as <b>JPG or PNG</b>, as you saved them — you are not forced to PNG. <b>WebP is rejected</b> with a clear message. Characters must be <b>ultra realistic, with real skin texture and real hair texture</b>. Within one video, identity, clothing, location and lighting stay frozen from these reference photos.</p>
+        <label>Character name</label>
+        <input type="text" id="v_name" placeholder="e.g. Glam">
+        <div class="hint">The letter is assigned automatically — the next free letter (A, B, C…). Character A is reused as Character A, Character B as Character B.</div>
+        <label>Voice description</label>
+        <input type="text" id="v_voice" placeholder="e.g. warm, sassy, straight-forward, funny">
+        <div class="grid" style="margin-top:14px">
+          <div class="slotbox">
+            <h3 style="margin-top:0">Slot 1 — Headshot · 9:16</h3>
+            <div class="slotframe" id="v_slot1_frame">No photo yet</div>
+            <input type="file" id="v_slot1" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <div class="err" id="v_slot1_err"></div>
+          </div>
+          <div class="slotbox">
+            <h3 style="margin-top:0">Slot 2 — Body Reference Sheet · single 9:16</h3>
+            <div class="slotframe" id="v_slot2_frame">No photo yet<br>Front + side + profile + three-quarter, all on ONE photo</div>
+            <input type="file" id="v_slot2" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <div class="err" id="v_slot2_err"></div>
+          </div>
+        </div>
+        <div><button class="btn" id="v_save">♥ Lock character in Vault</button></div>
+        <div class="saved-msg" id="v_msg"></div>
+        <div class="err" id="v_err"></div>
+      </div>
+      <div class="card">
+        <h2>Locked characters</h2>
+        <div id="vaultList"></div>
+      </div>
+    </section>
+
+    <!-- SOLO AGENTS -->
+    <section class="page" id="page-solo">
+      <div class="card">
+        <h2>Solo Agent Forms — run one agent by itself</h2>
+        <p>Pick an agent, fill its form, and copy its ready-made prompt — or save it to the Queue as a solo job. A solo form does not execute anything by itself; Muse runs it in chat after you paste the prompt. The solo Story &amp; Script form and the solo VideoExpress form also include the Product Presentation choice.</p>
+        <div class="agent-tabs" id="soloTabs">
+          <button data-solo="1" class="active">1. Research Scout</button>
+          <button data-solo="2">2. Image Agent</button>
+          <button data-solo="3">3. Story &amp; Script</button>
+          <button data-solo="4">4. VideoExpress</button>
+          <button data-solo="5">5. Title &amp; SEO</button>
+        </div>
+        <div id="soloForms"></div>
+      </div>
+    </section>
+
+    <!-- QUEUE -->
+    <section class="page" id="page-queue">
+      <div class="card">
+        <h2>Queue — full runs + solo jobs, newest first</h2>
+        <p>Status is <b>manual</b>: queued, working or done. Changing it <b>does not execute anything</b> — it only changes the label. Press <b>Run in Chat</b> on a card to set it to working, open its Run in Chat card, and copy the complete prompt to paste into a new chat.</p>
+        <div id="queueList"></div>
+        <div id="runCardWrap"></div>
+      </div>
+    </section>
+  </div>
+  <div class="shell-bottom"><div class="round-btns">
+    <div class="round-wrap"><button class="shell-btn" data-page="home" aria-label="Home"></button><span>HOME</span></div>
+    <div class="round-wrap"><button class="shell-btn" data-page="intake" aria-label="Video Intake"></button><span>INTAKE</span></div>
+    <div class="round-wrap"><button class="shell-btn" data-page="vault" aria-label="Character Vault"></button><span>VAULT</span></div>
+    <div class="round-wrap"><button class="shell-btn" data-page="queue" aria-label="Queue"></button><span>QUEUE</span></div>
+  </div></div>
+  <div class="footer-note">YOUTUBE FARM · starts empty · nothing is auto-posted or auto-published · Muse runs every job in chat</div>
+</div>
+<script>
+var CHARS_KEY='ytf_chars_v1', QUEUE_KEY='ytf_queue_v1';
+var MODES=['Get Ready With Me','Spend The Day With Me','Tutorials in general','Makeup tutorials','Hair tutorials','Product reviews','Cooking videos'];
+var AGENTS={1:'Research Scout',2:'Image Agent',3:'Story & Script Agent',4:'VideoExpress Agent',5:'Title, Description & SEO Agent'};
+var chars=[], queue=[];
+try{ chars=JSON.parse(localStorage.getItem(CHARS_KEY)||'[]'); }catch(e){ chars=[]; }
+try{ queue=JSON.parse(localStorage.getItem(QUEUE_KEY)||'[]'); }catch(e){ queue=[]; }
+var pendingSlot1=null, pendingSlot2=null;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function uid(){ return 'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function saveChars(){ try{ localStorage.setItem(CHARS_KEY, JSON.stringify(chars)); }catch(e){} updateCounts(); }
+function saveQueue(){ try{ localStorage.setItem(QUEUE_KEY, JSON.stringify(queue)); }catch(e){} updateCounts(); }
+function updateCounts(){ var q=$('queueCount'); if(q) q.textContent=queue.length?queue.length:''; var v=$('vaultCount'); if(v) v.textContent=chars.length?chars.length:''; }
+function ppSentence(pp){ return pp==='Holding the product' ? 'Holding the product, not wearing it.' : (pp==='Wearing the product' ? 'Wearing the product, not holding it.' : '— no Product Presentation picked —'); }
+function findChar(id){ for(var i=0;i<chars.length;i++){ if(chars[i].id===id) return chars[i]; } return null; }
+function charLabel(c){ return c ? ('Character '+c.letter+(c.name?' — '+c.name:'')) : 'No character picked'; }
+function nextLetter(){ var used={}; chars.forEach(function(c){ used[String(c.letter||'').toUpperCase()]=1; }); var L='ABCDEFGHIJKLMNOPQRSTUVWXYZ'; for(var i=0;i<L.length;i++){ if(!used[L[i]]) return L[i]; } return String(chars.length+1); }
+function showPage(name){
+  document.querySelectorAll('section.page').forEach(function(s){ s.classList.toggle('active', s.id==='page-'+name); });
+  document.querySelectorAll('#mainTabs button').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-page')===name); });
+  if(name==='queue') renderQueue();
+  if(name==='vault') renderVault();
+}
+document.querySelectorAll('#mainTabs button').forEach(function(b){ b.addEventListener('click', function(){ showPage(b.getAttribute('data-page')); }); });
+document.querySelectorAll('.shell-btn').forEach(function(b){ b.addEventListener('click', function(){ showPage(b.getAttribute('data-page')); }); });
+function charOptions(selectedId, allowCreate){
+  var h='<option value="">No character picked</option>';
+  chars.forEach(function(c){ h+='<option value="'+c.id+'"'+(c.id===selectedId?' selected':'')+'>'+esc(charLabel(c))+(c.voice?' · '+esc(c.voice):'')+'</option>'; });
+  if(allowCreate) h+='<option value="__create">+ Create a new character (go to Vault)</option>';
+  return h;
+}
+function fillCharPickers(){
+  var cur=$('in_char').value;
+  $('in_char').innerHTML=charOptions(cur, true);
+  if(cur && findChar(cur)) $('in_char').value=cur;
+  document.querySelectorAll('select[data-charpicker]').forEach(function(sel){ var v=sel.value; sel.innerHTML=charOptions(v, true); if(v && findChar(v)) sel.value=v; });
+}
+function pickerChanged(sel){ if(sel.value==='__create'){ sel.value=''; showPage('vault'); } }
+$('in_char').addEventListener('change', function(){ pickerChanged(this); });
+function bindPP(radioName, outId){
+  function upd(){ var el=document.querySelector('input[name="'+radioName+'"]:checked'); var pp=el?el.value:''; var out=$(outId); if(out) out.innerHTML='Exact prompt sentence for this run: <b>'+esc(ppSentence(pp))+'</b>'; }
+  document.querySelectorAll('input[name="'+radioName+'"]').forEach(function(r){ r.addEventListener('change', upd); });
+  upd();
+}
+function getPP(radioName){ var el=document.querySelector('input[name="'+radioName+'"]:checked'); return el?el.value:''; }
+function getRadio(name){ var el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:''; }
+function handleUpload(input, frameId, errId, which){
+  var f=input.files && input.files[0]; var err=$(errId); err.textContent='';
+  if(!f) return;
+  var name=(f.name||'').toLowerCase(); var type=(f.type||'').toLowerCase();
+  if(type==='image/webp' || name.endsWith('.webp')){ err.textContent='WebP is not accepted. JPG or PNG are accepted — please re-save this photo as JPG or PNG.'; input.value=''; return; }
+  if(!(type==='image/jpeg' || type==='image/png' || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png'))){ err.textContent='Only JPG or PNG are accepted for Vault uploads.'; input.value=''; return; }
+  var r=new FileReader();
+  r.onload=function(){ var slot={name:f.name, dataUrl:r.result}; if(which===1) pendingSlot1=slot; else pendingSlot2=slot; $(frameId).innerHTML='<img src="'+r.result+'" alt="">'; };
+  r.readAsDataURL(f);
+}
+$('v_slot1').addEventListener('change', function(){ handleUpload(this,'v_slot1_frame','v_slot1_err',1); });
+$('v_slot2').addEventListener('change', function(){ handleUpload(this,'v_slot2_frame','v_slot2_err',2); });
+$('v_save').addEventListener('click', function(){
+  $('v_err').textContent=''; $('v_msg').textContent='';
+  if(!pendingSlot1 || !pendingSlot2){ $('v_err').textContent='A character is not locked until BOTH slots are filled — Slot 1 headshot (9:16) and Slot 2 single 9:16 body reference sheet are both required.'; return; }
+  var c={id:uid(), letter:nextLetter(), name:$('v_name').value.trim(), voice:$('v_voice').value.trim(), slot1:pendingSlot1, slot2:pendingSlot2};
+  chars.push(c); saveChars();
+  pendingSlot1=null; pendingSlot2=null; $('v_slot1').value=''; $('v_slot2').value=''; $('v_name').value=''; $('v_voice').value='';
+  $('v_slot1_frame').textContent='No photo yet'; $('v_slot2_frame').innerHTML='No photo yet';
+  $('v_msg').textContent='♥ '+charLabel(c)+' locked in the Vault — both slots filled.';
+  fillCharPickers(); renderVault();
+});
+function renderVault(){
+  var w=$('vaultList');
+  if(!chars.length){ w.innerHTML='<div class="empty">The Vault is empty. No test characters ship with this dashboard.<br>Upload Slot 1 + Slot 2 above to lock your first character.</div>'; return; }
+  var h='';
+  chars.forEach(function(c){
+    h+='<div class="queue-card"><h3>'+esc(charLabel(c))+' <span class="badge locked">Locked</span></h3><div class="kv">'
+      +'<img class="thumb" src="'+esc(c.slot1.dataUrl)+'" alt=""> <img class="thumb" src="'+esc(c.slot2.dataUrl)+'" alt=""><br>'
+      +'<b>Voice:</b> '+(c.voice?esc(c.voice):'—')+'<br>'
+      +'<b>Slot 1 Headshot (9:16):</b> Uploaded in Character Vault — '+esc(c.slot1.name)+'<br>'
+      +'<b>Slot 2 Body Reference Sheet (single 9:16):</b> Uploaded in Character Vault — '+esc(c.slot2.name)+'<br>'
+      +'<b>Lock rule:</b> Character '+esc(c.letter)+' is reused as Character '+esc(c.letter)+'. Identity, clothing, location and lighting stay frozen from these photos.</div>'
+      +'<button class="btn small danger" data-delchar="'+c.id+'">Remove character</button></div>';
+  });
+  w.innerHTML=h;
+  w.querySelectorAll('[data-delchar]').forEach(function(b){ b.addEventListener('click', function(){ var id=b.getAttribute('data-delchar'); chars=chars.filter(function(c){ return c.id!==id; }); saveChars(); fillCharPickers(); renderVault(); }); });
+}
+</script>
+<script>
+/* ---- Solo forms are built here so all 5 share the exact same fields ---- */
+(function buildSolo(){
+  var wrap=$('soloForms'); var h='';
+  var soloPP={3:true,4:true};
+  var soloBlurb={
+    1:'Search YouTube for proven topics, titles, hooks and angles for the mode + topic, and Pinterest (guest view, no sign-in) for outfits/products with an Amazon affiliate link. Do not go to Amazon to check price or availability. Do not copy another creator\u2019s video.',
+    2:'Create the images in chat — ultra realistic, real skin texture, real hair texture, all PNG. Character/outfit references are 9:16; the YouTube thumbnail is 16:9. Lock the outfit in chat first, then make the single 9:16 outfit reference sheet.',
+    3:'Write the first-30-seconds hook, the full spoken script, chapter breaks and the shot list. Label every scene with the run\u2019s one Product Presentation choice. Scene action only in VideoExpress prompts — never describe the character.',
+    4:'Make the video in VideoExpress (app.videoexpress.ai) — Create with AI \u2192 first option \u2192 Consistent Character \u2192 Consistent Character Reference. Reference One: headshot. Reference Two: chat-made outfit reference sheet. Never leave Slot 2 empty. Return the video in chat for approval. Never post it.',
+    5:'Write the YouTube title (honest, no false claims), full description, chapters/timestamps, tags, hashtags, pinned comment and end-screen line — plus a Shorts caption if cutting it down. No price, discount or sale claim unless a live price was actually verified.'
+  };
+  for(var n=1;n<=5;n++){
+    h+='<div class="solo-form'+(n===1?' active':'')+'" id="solo-'+n+'">'
+      +'<h3>'+n+'. '+esc(AGENTS[n])+'</h3><p>'+esc(soloBlurb[n])+'</p>'
+      +'<label>Locked character</label><select data-charpicker id="s'+n+'_char"></select>'
+      +'<label>Mode</label><select id="s'+n+'_mode">'+MODES.map(function(m){ return '<option>'+esc(m)+'</option>'; }).join('')+'</select>';
+    if(soloPP[n]){
+      h+='<label>Product Presentation — one single choice</label><div class="radio-row">'
+        +'<label class="radio-pill"><input type="radio" name="s'+n+'_pp" value="Wearing the product" checked> Wearing the product</label>'
+        +'<label class="radio-pill"><input type="radio" name="s'+n+'_pp" value="Holding the product"> Holding the product</label></div>'
+        +'<div class="pp-sentence" id="s'+n+'_pp_sentence"></div>';
+    }
+    h+='<label>YouTube format</label><div class="radio-row">'
+      +'<label class="radio-pill"><input type="radio" name="s'+n+'_format" value="Long-form 16:9" checked> Long-form 16:9</label>'
+      +'<label class="radio-pill"><input type="radio" name="s'+n+'_format" value="YouTube Short 9:16"> YouTube Short 9:16</label></div>'
+      +'<label>Topic</label><input type="text" id="s'+n+'_topic" placeholder="What is this job about?">'
+      +'<label>Length</label><input type="text" id="s'+n+'_length" placeholder="e.g. 8\u201310 minutes, or 45 seconds">'
+      +'<label>Product name and product link, when there is one</label><input type="text" id="s'+n+'_product_name" placeholder="Product name"><input type="url" id="s'+n+'_product_link" placeholder="https://\u2026 product link" style="margin-top:8px">'
+      +'<label>Reference video link, when there is one</label><input type="url" id="s'+n+'_ref_link" placeholder="https://youtube.com/\u2026 or a Pinterest pin link">'
+      +'<label>Notes</label><textarea id="s'+n+'_notes" placeholder="Anything Muse must not swap"></textarea>'
+      +'<label>Ready-to-copy prompt for this solo job</label><div class="prompt-out" id="s'+n+'_prompt"></div>'
+      +'<div><button class="btn small" data-copysolo="'+n+'">Copy prompt</button><button class="btn small secondary" data-addsolo="'+n+'">Add solo job to Queue</button></div>'
+      +'<div class="saved-msg" id="s'+n+'_msg"></div></div>';
+  }
+  wrap.innerHTML=h;
+  document.querySelectorAll('#soloTabs button').forEach(function(b){ b.addEventListener('click', function(){
+    document.querySelectorAll('#soloTabs button').forEach(function(x){ x.classList.toggle('active', x===b); });
+    document.querySelectorAll('.solo-form').forEach(function(f){ f.classList.toggle('active', f.id==='solo-'+b.getAttribute('data-solo')); });
+  }); });
+  document.querySelectorAll('select[data-charpicker]').forEach(function(sel){ sel.addEventListener('change', function(){ pickerChanged(sel); }); });
+  for(var k=1;k<=5;k++){ (function(n){
+    ['char','mode','topic','length','product_name','product_link','ref_link','notes'].forEach(function(f){ var el=$('s'+n+'_'+f); if(el) el.addEventListener('input', function(){ refreshSoloPrompt(n); }); if(el) el.addEventListener('change', function(){ refreshSoloPrompt(n); }); });
+    document.querySelectorAll('input[name="s'+n+'_pp"], input[name="s'+n+'_format"]').forEach(function(r){ r.addEventListener('change', function(){ refreshSoloPrompt(n); var out=$('s'+n+'_pp_sentence'); if(out) out.innerHTML='Exact prompt sentence for this job: <b>'+esc(ppSentence(getPP('s'+n+'_pp')))+'</b>'; }); });
+    var out=$('s'+n+'_pp_sentence'); if(out) out.innerHTML='Exact prompt sentence for this job: <b>'+esc(ppSentence(getPP('s'+n+'_pp')))+'</b>';
+  })(k); }
+  wrap.querySelectorAll('[data-copysolo]').forEach(function(b){ b.addEventListener('click', function(){ var n=b.getAttribute('data-copysolo'); copyText(buildSoloPrompt(getSoloData(Number(n))), $('s'+n+'_msg')); }); });
+  wrap.querySelectorAll('[data-addsolo]').forEach(function(b){ b.addEventListener('click', function(){ var n=Number(b.getAttribute('data-addsolo')); var d=getSoloData(n); d.id=uid(); d.status='queued'; d.createdAt=Date.now(); queue.unshift(d); saveQueue(); $('s'+n+'_msg').textContent='\u2665 Solo job added to the Queue.'; renderQueue(); }); });
+})();
+function slotLines(c){
+  if(!c) return 'Slot 1 Headshot: \u2014 none \u2014\nSlot 2 Body Reference Sheet: \u2014 none \u2014';
+  return 'Slot 1 Headshot: Uploaded in Character Vault \u2014 Character '+c.letter+' Slot 1 ('+c.slot1.name+')\nSlot 2 Body Reference Sheet: Uploaded in Character Vault \u2014 Character '+c.letter+' Slot 2, single 9:16 sheet ('+c.slot2.name+')';
+}
+function rulesBlock(pp){
+  return '\nSTANDING RULES FOR THIS RUN:\n'
+  +'- Product Presentation is one choice only, never both: '+ppSentence(pp)+' Never wearing an outfit while holding that same outfit on a hanger. If both are needed, use separate scenes, never the same shot.\n'
+  +'- Research: YouTube for the proven angle/title/hook, Pinterest in guest view (no sign-in) for the outfit/product with an Amazon affiliate link. Do not go to Amazon to check price or availability at the research step. Do not copy another creator\u2019s video, script or thumbnail.\n'
+  +'- Outfit lock in chat first: put the locked character in the exact outfit in chat, check face match + outfit match, then make ONE single 9:16 outfit reference sheet (front, profile, three-quarter on the same photo) in chat, as PNG.\n'
+  +'- Every image Muse creates is PNG, not webp. Character/outfit references are 9:16. The YouTube thumbnail is 16:9 PNG, her real face, 3\u20134 big words max.\n'
+  +'- VideoExpress: Create with AI \u2192 first option \u2192 Consistent Character \u2192 Consistent Character Reference. Reference One: headshot. Reference Two: the chat-made outfit reference sheet. Never leave Slot 2 empty. No character bible.\n'
+  +'- Scene prompt shape ONLY: "Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] '+ppSentence(pp)+'" Never describe her \u2014 no face, hair, skin, body or outfit description.\n'
+  +'- Scenes: 16:9 for long-form, 9:16 for a Short. Script starts with a first-30-seconds hook, with chapter breaks for long-form.\n'
+  +'- Title/description: honest title, full description, chapters, tags and pinned comment. No price, discount or sale claim unless a live price was actually verified.\n'
+  +'- Return the finished video (and thumbnail for long-form) in chat for approval. Do NOT post, publish or share it. Posting/publishing needs Glam\u2019s separate approval. Standing permission covers VideoExpress uploads only.';
+}
+function jobHeader(title, d){
+  var c=findChar(d.characterId);
+  return title+'\nRun this exact job. Do not swap any details.\n\n'
+  +'Character: '+charLabel(c)+'\n'+slotLines(c)+'\n'
+  +'Voice: '+((c&&c.voice)?c.voice:'\u2014')+'\n'
+  +'Mode: '+(d.mode||'\u2014')+'\n'
+  +'Product Presentation: '+(d.pp||'\u2014 no Product Presentation picked \u2014')+' \u2014 '+ppSentence(d.pp)+'\n'
+  +'YouTube Format: '+(d.format||'\u2014')+'\n'
+  +'Topic: '+(d.topic||'\u2014')+'\n'
+  +'Length: '+(d.length||'\u2014')+'\n'
+  +'Product: '+((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:'' )||'\u2014')+'\n'
+  +'Reference Video Link: '+(d.refLink||'\u2014 none \u2014')+'\n'
+  +'Notes: '+(d.notes||'\u2014');
+}
+function buildFullPrompt(d){ return jobHeader('YOUTUBE FARM \u2014 FULL FARM RUN (all 5 agents, in order)', d)+rulesBlock(d.pp); }
+function buildSoloPrompt(d){ return jobHeader('YOUTUBE FARM \u2014 SOLO JOB: Agent '+d.agent+' \u2014 '+AGENTS[d.agent], d)+'\n\nRun ONLY this one agent job, on its own \u2014 not a full farm run.'+rulesBlock(d.pp); }
+function getSoloData(n){
+  return {kind:'solo', agent:n, characterId:($('s'+n+'_char')?$('s'+n+'_char').value:''), mode:$('s'+n+'_mode').value, pp:(n===3||n===4)?getPP('s'+n+'_pp'):'', format:getRadio('s'+n+'_format'), topic:$('s'+n+'_topic').value.trim(), length:$('s'+n+'_length').value.trim(), productName:$('s'+n+'_product_name').value.trim(), productLink:$('s'+n+'_product_link').value.trim(), refLink:$('s'+n+'_ref_link').value.trim(), notes:$('s'+n+'_notes').value.trim()};
+}
+function refreshSoloPrompt(n){ var el=$('s'+n+'_prompt'); if(el) el.textContent=buildSoloPrompt(getSoloData(n)); }
+function refreshAllSoloPrompts(){ for(var n=1;n<=5;n++) refreshSoloPrompt(n); }
+function copyText(text, msgEl){
+  function done(){ if(msgEl) msgEl.textContent='\u2665 Prompt copied \u2014 paste it into a new chat and Muse runs it.'; }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(); }); } else fallback();
+  function fallback(){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); done(); }
+}
+$('in_save').addEventListener('click', function(){
+  var d={kind:'full', agent:0, id:uid(), status:'queued', createdAt:Date.now(), characterId:$('in_char').value==='__create'?'':$('in_char').value, mode:$('in_mode').value, pp:getPP('in_pp'), format:getRadio('in_format'), topic:$('in_topic').value.trim(), length:$('in_length').value.trim(), productName:$('in_product_name').value.trim(), productLink:$('in_product_link').value.trim(), refLink:$('in_ref_link').value.trim(), notes:$('in_notes').value.trim()};
+  queue.unshift(d); saveQueue(); $('in_msg').textContent='\u2665 Full YouTube farm run saved to the Queue. Nothing has started \u2014 press Run in Chat on its Queue card when you are ready.'; renderQueue();
+});
+bindPP('in_pp','in_pp_sentence');
+function statusBadge(s){ return '<span class="badge '+esc(s)+'">'+esc(s).toUpperCase()+'</span>'; }
+function renderQueue(){
+  var w=$('queueList'); if(!w) return;
+  if(!queue.length){ w.innerHTML='<div class="empty">The Queue is empty. No test runs or sample rows ship with this dashboard.<br>Save a full run from Video Intake, or add a solo job from Solo Agents.</div>'; $('runCardWrap').innerHTML=''; return; }
+  var h='';
+  queue.forEach(function(d){
+    var c=findChar(d.characterId);
+    h+='<div class="queue-card"><h3>'+(d.kind==='full'?'Full Farm Run':'Solo \u2014 Agent '+d.agent+' '+esc(AGENTS[d.agent]||''))+' '+statusBadge(d.status)+'</h3>'
+      +'<div class="kv"><b>Character:</b> '+esc(charLabel(c))+'<br><b>Mode:</b> '+esc(d.mode||'\u2014')+'<br>'
+      +'<b>Product Presentation:</b> '+esc(d.pp||'\u2014 none \u2014')+' \u2014 <b>'+esc(ppSentence(d.pp))+'</b><br>'
+      +'<b>YouTube Format:</b> '+esc(d.format||'\u2014')+'<br><b>Topic:</b> '+esc(d.topic||'\u2014')+'<br><b>Length:</b> '+esc(d.length||'\u2014')+'<br>'
+      +'<b>Product:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'</div>'
+      +'<div class="status-row"><span style="font-family:Space Mono,monospace;font-weight:bold;font-size:12.5px">STATUS (label only, runs nothing):</span>'
+      +['queued','working','done'].map(function(s){ return '<button data-status="'+s+'" data-qid="'+d.id+'" class="'+(d.status===s?'on':'')+'">'+s+'</button>'; }).join('')+'</div>'
+      +'<button class="btn small" data-run="'+d.id+'">\u25b6 Run in Chat</button> <button class="btn small danger" data-delq="'+d.id+'">Delete</button></div>';
+  });
+  w.innerHTML=h;
+  w.querySelectorAll('[data-status]').forEach(function(b){ b.addEventListener('click', function(){ var item=queue.find(function(x){ return x.id===b.getAttribute('data-qid'); }); if(item){ item.status=b.getAttribute('data-status'); saveQueue(); renderQueue(); } }); });
+  w.querySelectorAll('[data-delq]').forEach(function(b){ b.addEventListener('click', function(){ queue=queue.filter(function(x){ return x.id!==b.getAttribute('data-delq'); }); saveQueue(); renderQueue(); }); });
+  w.querySelectorAll('[data-run]').forEach(function(b){ b.addEventListener('click', function(){ openRunCard(b.getAttribute('data-run')); }); });
+}
+function openRunCard(id){
+  var d=queue.find(function(x){ return x.id===id; }); if(!d) return;
+  d.status='working'; saveQueue(); renderQueue();
+  var c=findChar(d.characterId);
+  var prompt=(d.kind==='full')?buildFullPrompt(d):buildSoloPrompt(d);
+  var thumbs=c?('<img class="thumb" src="'+esc(c.slot1.dataUrl)+'" alt=""> <img class="thumb" src="'+esc(c.slot2.dataUrl)+'" alt="">'):'<span class="thumb-missing">Slot 1<br>none</span> <span class="thumb-missing">Slot 2<br>none</span>';
+  $('runCardWrap').innerHTML='<div class="card" style="margin-top:15px"><h2>Run in Chat \u2014 ready to copy</h2>'
+    +'<div class="kv">'+thumbs+'<br><b>Character:</b> '+esc(charLabel(c))+'<br>'
+    +'<b>Slot 1 Headshot (9:16):</b> '+(c?('Uploaded in Character Vault \u2014 '+esc(c.slot1.name)):'\u2014 none \u2014')+'<br>'
+    +'<b>Slot 2 Body Reference Sheet (single 9:16):</b> '+(c?('Uploaded in Character Vault \u2014 '+esc(c.slot2.name)):'\u2014 none \u2014')+'<br>'
+    +'<b>Voice:</b> '+esc((c&&c.voice)||'\u2014')+'<br><b>Mode:</b> '+esc(d.mode||'\u2014')+'<br>'
+    +'<b>Product Presentation:</b> '+esc(d.pp||'\u2014 none \u2014')+' \u2014 <b>'+esc(ppSentence(d.pp))+'</b><br>'
+    +'<b>YouTube Format:</b> '+esc(d.format||'\u2014')+'<br><b>Topic:</b> '+esc(d.topic||'\u2014')+'<br><b>Length:</b> '+esc(d.length||'\u2014')+'<br>'
+    +'<b>Product:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'<br>'
+    +'<b>Reference Video Link:</b> '+esc(d.refLink||'\u2014 none \u2014')+'</div>'
+    +'<label>The complete prompt \u2014 nothing swapped</label><div class="prompt-out" id="runPromptOut"></div>'
+    +'<div><button class="btn" id="runCopyBtn">Copy prompt</button></div><div class="saved-msg" id="runMsg"></div>'
+    +'<p class="hint">This run is now marked <b>working</b>. Paste the copied prompt into a new chat and Muse runs that exact run. There is no scheduled pickup.</p></div>';
+  $('runPromptOut').textContent=prompt;
+  $('runCopyBtn').addEventListener('click', function(){ copyText(prompt, $('runMsg')); });
+  $('runCardWrap').scrollIntoView({behavior:'smooth', block:'start'});
+}
+/* init */
+fillCharPickers(); renderVault(); renderQueue(); refreshAllSoloPrompts(); updateCounts();
+</script>
+</body>
+</html>
