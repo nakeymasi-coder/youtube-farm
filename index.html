@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YouTube Farm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--space:#050914;--space2:#0a1030;--panel:rgba(16,28,64,.72);--panel2:rgba(24,40,92,.55);--cyan:#37e6ff;--sapphire:#168fea;--violet:#8b5cff;--magenta:#ff4d8d;--ytred:#ff0033;--ink:#eaf2ff;--soft:#9fb4d8;--line:rgba(55,230,255,.35);--glow:0 0 18px rgba(55,230,255,.45)}
 *{box-sizing:border-box}
@@ -121,13 +121,98 @@ ol.steps li{margin-bottom:7px}
 @media (max-width:640px){nav.tabs{grid-template-columns:repeat(2,1fr)}.device{padding:18px 12px 14px;border-radius:28px}.orb1{right:8px}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
+
+<style>
+/* ===== YOUTUBE CLAY DARK THEME (Glam's direction 2026-10-25: dark, YouTube colors, floating 3D clay) ===== */
+:root{--clay-red:#ff0000;--clay-red-d:#c40000;--clay-bg:#0f0f0f;--clay-panel:#212121;--clay-panel2:#272727;--clay-line:#3d3d3d;--ink:#f1f1f1;--soft:#aaaaaa}
+.stars,.stars2{display:none!important}
+body{background:#0f0f0f;background-image:radial-gradient(900px 500px at 88% -10%, rgba(255,0,0,.20), transparent 60%),radial-gradient(800px 500px at -10% 25%, rgba(255,0,0,.10), transparent 60%),radial-gradient(700px 500px at 50% 115%, rgba(255,255,255,.05), transparent 60%),linear-gradient(180deg,#0f0f0f,#151515 55%,#0f0f0f);color:#f1f1f1;font-family:"Baloo 2","Space Grotesk",Verdana,sans-serif}
+.claybg{position:fixed;z-index:0;pointer-events:none;opacity:.55;filter:saturate(1.1)}
+.claybg1{width:120px;height:120px;left:3%;top:16%;border-radius:38% 62% 55% 45%/48% 42% 58% 52%;background:linear-gradient(145deg,#ff5a52,#ff0000 60%,#a80000);box-shadow:inset 0 -18px 28px rgba(0,0,0,.35),inset 0 14px 22px rgba(255,255,255,.35),0 30px 44px rgba(0,0,0,.55);animation:clayFloat 9s ease-in-out infinite}
+.claybg2{width:84px;height:84px;right:4%;top:58%;border-radius:50%;background:linear-gradient(145deg,#ffffff,#d9d9d9 65%,#9a9a9a);box-shadow:inset 0 -14px 22px rgba(0,0,0,.28),inset 0 10px 18px rgba(255,255,255,.9),0 26px 38px rgba(0,0,0,.5);animation:clayFloat 11s ease-in-out infinite reverse}
+.claybg3{right:7%;top:10%;font-size:52px;color:#ff0000;text-shadow:0 6px 0 #a80000,0 22px 30px rgba(0,0,0,.6);animation:clayFloat 10s ease-in-out infinite 1s}
+@keyframes clayFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-20px) rotate(6deg) scale(1.05)}}
+.device{background:linear-gradient(180deg,#262626,#141414 60%,#1b1b1b);border:3px solid #333;border-radius:44px;box-shadow:0 34px 70px rgba(0,0,0,.8),inset 0 3px 0 rgba(255,255,255,.14),inset 0 -14px 30px rgba(0,0,0,.55)}
+.device:before{background:conic-gradient(from var(--a,0deg),transparent 0 42%,rgba(255,0,0,.9) 50%,transparent 58% 100%)}
+.shell-brand{font-family:"Baloo 2",sans-serif;font-weight:800;background:none;-webkit-text-fill-color:#fff;color:#fff;filter:drop-shadow(0 4px 0 rgba(255,0,0,.45));letter-spacing:1px}
+.os-pill{background:#ff0000;color:#fff;border:none;-webkit-text-fill-color:#fff;box-shadow:inset 0 -4px 8px rgba(0,0,0,.3),inset 0 3px 6px rgba(255,255,255,.4),0 8px 16px rgba(0,0,0,.45);animation:none}
+.shell-pill{background:#272727;color:#fff;border:2px solid #3d3d3d;box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 6px 12px rgba(0,0,0,.4)}
+.shell-pill .dot{background:#ff0000;box-shadow:0 0 10px #ff0000}
+.lcd{background:linear-gradient(180deg,#1a1a1a,#141414);border:2px solid #303030;box-shadow:inset 0 0 60px rgba(255,0,0,.06),inset 0 2px 0 rgba(255,255,255,.05)}
+.lcd:before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 30px)}
+.lcd:after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.06),transparent)}
+.orb{z-index:0;display:flex;align-items:center;justify-content:center;color:#fff}
+.orb1{top:52px;right:24px;width:66px;height:48px;border-radius:16px;font-size:20px;background:linear-gradient(145deg,#ff6a61,#ff0000 55%,#b30000);box-shadow:inset 0 -10px 18px rgba(0,0,0,.35),inset 0 8px 14px rgba(255,255,255,.4),0 20px 32px rgba(0,0,0,.55);animation:clayFloat 7s ease-in-out infinite}
+.orb2{bottom:74px;left:14px;width:46px;height:46px;border-radius:50%;font-size:15px;color:#ff0000;background:linear-gradient(145deg,#ffffff,#dcdcdc 60%,#a6a6a6);box-shadow:inset 0 -8px 14px rgba(0,0,0,.25),inset 0 6px 12px rgba(255,255,255,.95),0 18px 28px rgba(0,0,0,.5);animation:clayFloat 8.5s ease-in-out infinite reverse}
+.orb3{top:46%;right:12px;width:34px;height:34px;border-radius:38% 62% 55% 45%/48% 42% 58% 52%;font-size:11px;background:linear-gradient(145deg,#ff6a61,#ff0000 60%,#a80000);box-shadow:inset 0 -7px 12px rgba(0,0,0,.3),inset 0 5px 10px rgba(255,255,255,.4),0 16px 24px rgba(0,0,0,.5);animation:clayFloat 9.5s ease-in-out infinite 1s}
+.orb4{bottom:36%;left:8px;width:24px;height:24px;border-radius:50%;background:linear-gradient(145deg,#ffffff,#dcdcdc 60%,#a6a6a6);box-shadow:inset 0 -5px 9px rgba(0,0,0,.25),inset 0 4px 8px rgba(255,255,255,.95),0 12px 20px rgba(0,0,0,.5);animation:clayFloat 10.5s ease-in-out infinite .5s}
+.notice{background:#262626;border:2px dashed #ff0000;color:#f1f1f1;box-shadow:inset 0 2px 0 rgba(255,255,255,.06)}
+.notice b{color:#ff7b72}
+nav.tabs button{background:#272727;color:#fff;border:2px solid #3d3d3d;font-family:"Baloo 2",sans-serif;font-weight:700;box-shadow:inset 0 3px 0 rgba(255,255,255,.09),0 8px 16px rgba(0,0,0,.45)}
+nav.tabs button:hover{border-color:#ff0000;box-shadow:0 0 0 2px rgba(255,0,0,.35),0 10px 20px rgba(0,0,0,.5)}
+nav.tabs button.active{background:#ff0000;color:#fff;border-color:#ff6a61;box-shadow:inset 0 -5px 10px rgba(0,0,0,.3),inset 0 3px 7px rgba(255,255,255,.35),0 12px 24px rgba(255,0,0,.35);animation:none}
+.count-badge{background:#fff;color:#ff0000}
+.card{background:#212121;border:2px solid #303030;box-shadow:inset 0 2px 0 rgba(255,255,255,.06),0 16px 30px rgba(0,0,0,.5);backdrop-filter:none}
+.card h2{font-family:"Baloo 2",sans-serif;color:#fff;text-shadow:none;letter-spacing:.5px}
+.card h3{color:#ff7b72}
+.card p,.card li{color:#e6e6e6}
+.card a{color:#ff7b72}
+.mini{border:2px solid #333;background:#272727}
+.mini:hover{border-color:#ff0000;box-shadow:0 12px 22px rgba(0,0,0,.55)}
+.mini h4{color:#ff9d97}
+label{color:#fff;font-family:"Baloo 2",sans-serif}
+input[type=text],input[type=url],select,textarea{background:#121212;border:2px solid #3d3d3d;color:#fff}
+select option{background:#212121;color:#fff}
+input:focus,select:focus,textarea:focus{border-color:#ff0000;box-shadow:0 0 0 3px rgba(255,0,0,.3)}
+.hint{color:#aaa}
+.btn{background:#ff0000;color:#fff;border:2px solid #ff6a61;border-radius:999px;font-family:"Baloo 2",sans-serif;box-shadow:inset 0 -5px 10px rgba(0,0,0,.28),inset 0 3px 7px rgba(255,255,255,.35),0 10px 20px rgba(0,0,0,.5)}
+.btn:hover{box-shadow:inset 0 -5px 10px rgba(0,0,0,.28),inset 0 3px 7px rgba(255,255,255,.35),0 0 0 3px rgba(255,0,0,.3),0 12px 24px rgba(0,0,0,.55)}
+.btn.secondary{background:#272727;color:#fff;border-color:#4d4d4d}
+.btn.danger{background:#2b2b2b;color:#ff8a80;border-color:#ff0000;box-shadow:inset 0 2px 0 rgba(255,255,255,.07),0 8px 16px rgba(0,0,0,.45)}
+.radio-pill{background:#272727;border:2px solid #444;color:#eee}
+.radio-pill input{accent-color:#ff0000}
+.radio-pill:has(input:checked){background:#ff0000;border-color:#ff6a61;color:#fff;box-shadow:inset 0 -4px 8px rgba(0,0,0,.3),0 8px 16px rgba(255,0,0,.3)}
+.pp-sentence{background:#262626;border:2px dashed #ff0000;color:#fff}
+.pp-sentence b{color:#ff7b72}
+.slotbox{border:2px dashed #ff0000;background:#1d1d1d}
+.slotframe{background:#121212;border:2px solid #444;animation:none;box-shadow:inset 0 0 0 2px rgba(255,0,0,.15)}
+.badge{background:#333;color:#ccc;border-color:#555}
+.badge.locked{background:#fff;color:#111;border-color:#fff}
+.badge.working{background:#ff0000;color:#fff;border-color:#ff6a61}
+.badge.done{background:#fff;color:#111;border-color:#fff}
+.badge.queued{background:#272727;color:#fff;border-color:#4d4d4d}
+.empty{border:2px dashed #555;background:#1d1d1d;color:#aaa}
+.thumb{border-color:#4d4d4d}
+.thumb-missing{border-color:#ff0000;background:#1d1d1d;color:#aaa}
+.kv{color:#e6e6e6}.kv b{color:#ff7b72}
+.prompt-out,.codebox{background:#0a0a0a;color:#ffb4ae;border:1.5px solid #3d3d3d;box-shadow:inset 0 0 24px rgba(255,0,0,.05)}
+.queue-card{background:#212121;border:2px solid #303030;box-shadow:0 12px 24px rgba(0,0,0,.5)}
+.queue-card h3{color:#fff}
+.queue-card .kv{border-top-color:#3d3d3d}
+.status-row button{background:#272727;color:#fff;border:2px solid #4d4d4d;box-shadow:none}
+.status-row button.on{background:#ff0000;color:#fff;border-color:#ff6a61}
+.agent-tabs button{background:#272727;color:#fff;border:2px solid #444}
+.agent-tabs button:hover{border-color:#ff0000}
+.agent-tabs button.active{background:#ff0000;color:#fff;border-color:#ff6a61;box-shadow:0 8px 16px rgba(255,0,0,.3)}
+.shell-btn{display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px;border:3px solid #4d4d4d;background:radial-gradient(circle at 32% 28%,#ff8a80 0%,#ff0000 55%,#a80000 100%);box-shadow:inset 0 -8px 14px rgba(0,0,0,.35),inset 0 6px 12px rgba(255,255,255,.35),0 14px 26px rgba(0,0,0,.6);animation:clayFloat 7s ease-in-out infinite}
+.shell-btn:before{content:"▶"}
+.round-wrap:nth-child(2) .shell-btn{background:radial-gradient(circle at 32% 28%,#ffffff 0%,#e2e2e2 55%,#a6a6a6 100%);color:#ff0000;animation-delay:.7s}
+.round-wrap:nth-child(3) .shell-btn{animation-delay:1.3s}
+.round-wrap:nth-child(4) .shell-btn{background:radial-gradient(circle at 32% 28%,#ffffff 0%,#e2e2e2 55%,#a6a6a6 100%);color:#ff0000;animation-delay:1.9s}
+.round-wrap span{font-family:"Baloo 2",sans-serif;color:#fff;text-shadow:none;letter-spacing:1px}
+.footer-note{color:#888}
+.err{color:#ff8a80}
+.saved-msg{color:#fff}
+.trail-star{color:#ff0000;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+@media (prefers-reduced-motion:reduce){.claybg,.orb,.shell-btn{animation:none!important}}
+</style>
 </head>
 <body>
-<div class="stars"></div><div class="stars2"></div>
+<div class="stars"></div><div class="stars2"></div><div class="claybg claybg1"></div><div class="claybg claybg2"></div><div class="claybg claybg3">▶</div>
 <div class="device">
-  <div class="shell-top"><div class="shell-brand">▶ YOUTUBE FARM <span class="os-pill">FUTURE OS • ORBITAL v2.0</span></div><div class="shell-pills"><span class="shell-pill"><span class="dot"></span>LONG-FORM 16:9 + SHORTS 9:16</span><span class="shell-pill">MUSE CHAT BRIDGE: READY</span></div></div>
+  <div class="shell-top"><div class="shell-brand">▶ YOUTUBE FARM <span class="os-pill">YOUTUBE CLAY OS v3.0</span></div><div class="shell-pills"><span class="shell-pill"><span class="dot"></span>LONG-FORM 16:9 + SHORTS 9:16</span><span class="shell-pill">MUSE CHAT BRIDGE: READY</span></div></div>
   <div class="lcd">
-    <div class="orb orb1">▶</div><div class="orb orb2">▶</div><div class="orb orb3">▶</div>
+    <div class="orb orb1">▶</div><div class="orb orb2">▶</div><div class="orb orb3">▶</div><div class="orb orb4"></div>
     <div class="notice"><b>Please read — what this dashboard does NOT do:</b> This dashboard by itself does <b>not</b> browse YouTube or Pinterest, generate images, or make videos when you submit a form. Those steps are done by <b>Muse in chat after submission</b>, using Run in Chat. The dashboard does <b>not</b> promise automatic execution from the dashboard alone, and <b>nothing is auto-posted or auto-published to YouTube</b>.</div>
     <nav class="tabs" id="mainTabs">
       <button data-page="home" class="active">1. Home</button>
@@ -571,7 +656,7 @@ fillCharPickers(); renderVault(); renderQueue(); refreshAllSoloPrompts(); update
 <script>
 (function(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var glyphs=['✦','✧','★','▶'], colors=['#37e6ff','#ff8fb8','#c9a7ff','#fff','#7ee7ff'], last=0;
+  var glyphs=['▶','●','◆','▶'], colors=['#ff0000','#ffffff','#ff6b66','#aaaaaa','#ff0000'], last=0;
   document.addEventListener('pointermove', function(e){
     var now=Date.now(); if(now-last<55) return; last=now;
     var s=document.createElement('span'); s.className='trail-star';
@@ -581,7 +666,7 @@ fillCharPickers(); renderVault(); renderQueue(); refreshAllSoloPrompts(); update
     document.body.appendChild(s);
     setTimeout(function(){ s.remove(); }, 850);
     if(Math.random()<0.28){
-      var b=document.createElement('span'); b.className='trail-star'; b.textContent='✦';
+      var b=document.createElement('span'); b.className='trail-star'; b.textContent='▶';
       b.style.left=(e.clientX+(Math.random()*36-18))+'px'; b.style.top=(e.clientY+(Math.random()*36-18))+'px';
       b.style.color=colors[Math.floor(Math.random()*colors.length)]; b.style.fontSize='9px';
       document.body.appendChild(b); setTimeout(function(){ b.remove(); }, 850);
