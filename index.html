@@ -118,7 +118,7 @@ ol.steps li{margin-bottom:7px}
           <div class="mini"><h4>4. Production Agent</h4><p>Makes the video <b>right here in Muse with the built-in video tool, in chat</b> — the way you actually make your videos. Both character references go into <b>every</b> scene; show episodes are built line by line as real talking shots from the approved script, in the show's locked studio. Long-form <b>16:9</b>, Shorts <b>9:16</b>. For tutorials and lives that <b>you</b> record, it builds your filming order and screen-demo checklist instead. Muse's video tool runs on a daily allowance that refills — not credits. Returns the finished video in chat for approval. <b>Never posts or publishes it.</b></p></div>
           <div class="mini"><h4>5. Publish &amp; Monetize Agent</h4><p>Writes the <b>title</b> (built from the title patterns the Scout found popping, honest, no false claims), the full <b>description</b>, <b>chapters / timestamps</b>, tags, a pinned comment, an end-screen line pointing to your next video, and a Community post draft. The description carries <b>your money path</b>: the video's product / Payhip link first, the <b>AI After 40 Study Companion ($27)</b> on podcast episodes, then <b>Join = the $160 Glam Vault</b> — never the free Skool URL. For a product launch, <b>one code with six uses, with the code and link right in the post</b>. <b>No price, discount or sale claim unless a live price was actually verified, and no invented views or stats.</b></p></div>
         </div>
-        <h3>The 7 modes — your modes</h3>
+        <h3>The 8 modes — your modes</h3>
         <p>Mode is a setting, not a separate farm. It changes what the Scout researches, the script structure, the shots, the thumbnail and the title.</p>
         <div class="grid">
           <div class="mini"><p><b>1. AI Photo Prompt Short</b> — your views lane. A Gemini-style AI portrait idea as a 9:16 Short: the image, the on-screen prompt, the reveal. Themes like your winners — fashion glam, fantasy, holiday.</p></div>
@@ -128,7 +128,12 @@ ol.steps li{margin-bottom:7px}
           <div class="mini"><p><b>5. The Prompt Breakdown Episode</b> — Simone + Desi teaching ONE prompt recipe per episode. “Prompt It Right — Say It Right to Your AI.”</p></div>
           <div class="mini"><p><b>6. Product Demo &amp; Launch</b> — a demo of your own generator, app or template: who it's for, how to use it, how to make money with it, then the Payhip link.</p></div>
           <div class="mini"><p><b>7. Live Teaching / Workshop</b> — a live teaching session or workshop and its replay: the lesson plan, the demo order, and the offer it leads to.</p></div>
+          <div class="mini"><p><b>8. Package &amp; Post My Existing Video</b> — for a video you <b>already made</b>. The Scout checks your live video and what's popping, Image &amp; Thumbnail makes it a thumbnail that can compete, and Publish &amp; Monetize writes the title, description, chapters and tags — then posts it once you approve the package. No new video is made in this mode.</p></div>
         </div>
+        <h3>It's not always a product — and that's built in</h3>
+        <p>The Intake form asks <b>what this video is built around</b>: a product / offer, <b>images</b>, <b>a prompt</b>, <b>your existing video</b>, just a topic, or something else. The agents adapt to that choice — a prompt video leads with the prompt and its reveal, an images video leads with the images, and only a product video leads with the product and its Payhip link.</p>
+        <h3>Already made the video? That's a mode, not a new agent</h3>
+        <p>You asked whether checking a video you already have live needs its own agent — it doesn't. It's <b>Mode 8, Package &amp; Post My Existing Video</b>, and your same 5 agents do it in a different order: <b>Scout</b> opens your live video and checks it against what's popping (title pulling? thumbnail competing? description doing its job?), <b>Image &amp; Thumbnail</b> builds a fresh thumbnail from the winning patterns, <b>Script</b> is skipped (the video's already made), <b>Production</b> is skipped too, and <b>Publish &amp; Monetize</b> writes the whole package — title, description, chapters, tags, pinned comment — and <b>posts it after you approve the package in chat</b>. Approving the package is your post approval for this mode; nothing posts before that.</p>
         <h3>The Product Presentation rule — either / or, never both</h3>
         <p>Every run picks <b>one single choice</b>, right after Mode: <b>Wearing the product</b> or <b>Holding the product</b>.</p>
         <div class="pp-sentence">Wearing run — every prompt ends: <b>Wearing the product, not holding it.</b></div>
@@ -182,7 +187,7 @@ ol.steps li{margin-bottom:7px}
         <div class="hint">Pick a locked character from the Vault, or choose “Create a new character” to go to the Vault and add one. A character is only locked when both Vault slots are filled.</div>
         <label>2. Mode</label>
         <select id="in_mode">
-          <option>AI Photo Prompt Short</option><option>Beginner App Build</option><option>AI Tool Walkthrough</option><option>AI After 40 Episode</option><option>The Prompt Breakdown Episode</option><option>Product Demo &amp; Launch</option><option>Live Teaching / Workshop</option>
+          <option>AI Photo Prompt Short</option><option>Beginner App Build</option><option>AI Tool Walkthrough</option><option>AI After 40 Episode</option><option>The Prompt Breakdown Episode</option><option>Product Demo &amp; Launch</option><option>Live Teaching / Workshop</option><option>Package &amp; Post My Existing Video</option>
         </select>
         <label>3. Product Presentation — right after Mode, one single choice</label>
         <div class="radio-row">
@@ -200,9 +205,18 @@ ol.steps li{margin-bottom:7px}
           <label class="radio-pill"><input type="radio" name="in_format" value="YouTube Short 9:16"> YouTube Short 9:16</label>
         </div>
         <div class="hint">Long-form = 16:9 scenes + a 16:9 thumbnail. Short = 9:16 scenes, no thumbnail needed. Character references stay 9:16 either way.</div>
-        <label>7. Product name and product link, when there is one</label>
-        <input type="text" id="in_product_name" placeholder="Product name">
-        <input type="url" id="in_product_link" placeholder="https://… product link" style="margin-top:8px">
+        <label>7. What is this video built around? — it's not always a product</label>
+        <div class="radio-row">
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="A product / offer"> A product / offer</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="Images" checked> Images</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="A prompt"> A prompt</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="My existing video — already made"> My existing video — already made</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="Just a topic / idea"> Just a topic / idea</label>
+          <label class="radio-pill"><input type="radio" name="in_ctype" value="Something else"> Something else</label>
+        </div>
+        <div class="hint">Pick the one that fits. A run can be built around a set of images, a prompt you want to share or sell, a video you already made, or something else entirely — not just a product. Then name it and link it below: a Payhip link for a product, your YouTube link for an existing video, or leave the link empty.</div>
+        <input type="text" id="in_product_name" placeholder="Name — product, prompt pack, image set, or your video's working title" style="margin-top:8px">
+        <input type="url" id="in_product_link" placeholder="Link — Payhip, your live YouTube video, or leave empty" style="margin-top:8px">
         <label>8. Reference video link, when there is one</label>
         <input type="url" id="in_ref_link" placeholder="A YouTube video that is popping in this lane, when there is one">
         <div class="hint">A reference is for the angle, pacing and structure — never to copy another creator's video, script or thumbnail.</div>
@@ -287,7 +301,7 @@ ol.steps li{margin-bottom:7px}
 </div>
 <script>
 var CHARS_KEY='ytf_chars_v1', QUEUE_KEY='ytf_queue_v1';
-var MODES=['AI Photo Prompt Short','Beginner App Build','AI Tool Walkthrough','AI After 40 Episode','The Prompt Breakdown Episode','Product Demo & Launch','Live Teaching / Workshop'];
+var MODES=['AI Photo Prompt Short','Beginner App Build','AI Tool Walkthrough','AI After 40 Episode','The Prompt Breakdown Episode','Product Demo & Launch','Live Teaching / Workshop','Package & Post My Existing Video'];
 var AGENTS={1:'YouTube Scout',2:'Image & Thumbnail Agent',3:'Script Agent',4:'Production Agent',5:'Publish & Monetize Agent'};
 var chars=[], queue=[];
 try{ chars=JSON.parse(localStorage.getItem(CHARS_KEY)||'[]'); }catch(e){ chars=[]; }
@@ -377,11 +391,11 @@ function renderVault(){
   var wrap=$('soloForms'); var h='';
   var soloPP={3:true,4:true};
   var soloBlurb={
-    1:'SCOUT FIRST \u2014 research YouTube live for this mode + topic: what\u2019s viral, what\u2019s popping, what\u2019s rising in Glam\u2019s niche and the lanes next to it, plus what has already popped on her own channel (Glam Hustle Hub, @promptlikeglam). Come back and TELL HER first: a ranked report with real titles, channels, view/recency evidence exactly as shown on YouTube, why each is popping (hook, title, thumbnail pattern), and the angle adapted for her women-40+ audience in her voice \u2014 never a copy. She picks the direction, then the farm goes from there. No invented views or stats.',
+    1:'SCOUT FIRST \u2014 research YouTube live for this mode + topic: what\u2019s viral, what\u2019s popping, what\u2019s rising in Glam\u2019s niche and the lanes next to it, plus what has already popped on her own channel (Glam Hustle Hub, @promptlikeglam). In Package & Post mode, the Scout instead checks her existing live video \u2014 its title, thumbnail, description and numbers exactly as shown \u2014 against what\u2019s popping. Come back and TELL HER first: a ranked report with real titles, channels, view/recency evidence exactly as shown on YouTube, why each is popping (hook, title, thumbnail pattern), and the angle adapted for her women-40+ audience in her voice \u2014 never a copy. She picks the direction, then the farm goes from there. No invented views or stats.',
     2:'Build the images and the 16:9 thumbnail FROM THE SCOUT\u2019S REPORT \u2014 the patterns on the videos popping right now (face size/expression, 3\u20134 big words, contrast, colour pop, split layouts), in Glam\u2019s brand: sapphire, chrome, pearl, butterflies, plus-size women never slimmed. Never generic. All PNG, in chat; character references 9:16, ultra realistic, real skin and hair texture. Show thumbnails always use BOTH hosts of that show, never mixed.',
     3:'Write the script in Glam\u2019s voice \u2014 warm, plain English, no tech talk, \u201cboo,\u201d step-by-step, hands-on demo where the mode calls for one. First-30-seconds hook, full spoken script, chapters, shot list. Show modes: real host dialogue, every line its own talking shot. Label every scene with the one Product Presentation choice; scene action only in video prompts \u2014 never describe the character.',
     4:'Make the video in Muse with the built-in video maker, in chat \u2014 both references in every scene (Reference One headshot, Reference Two chat-made outfit reference sheet, never a scene without both, no character bible). Show episodes: line-by-line talking shots from the approved script in the locked studio. Tutorials/lives Glam records herself: build her filming order + screen-demo checklist instead. Return the video in chat for approval. Never post it.',
-    5:'Title built from the Scout\u2019s popping title patterns (honest, no false claims), full description, chapters, tags, pinned comment, end-screen line and Community post draft \u2014 with Glam\u2019s money path: the video\u2019s product/Payhip link first, AI After 40 Study Companion ($27, payhip.com/b/pdrjW) on podcast episodes, then Join = the $160 Glam Vault (never the free Skool URL). Product launch: ONE code with six uses, code + link right in the post. No price claim unless a live price was verified.'
+    5:'Title built from the Scout\u2019s popping title patterns (honest, no false claims), full description, chapters, tags, pinned comment, end-screen line and Community post draft \u2014 with Glam\u2019s money path: the video\u2019s product/Payhip link first, AI After 40 Study Companion ($27, payhip.com/b/pdrjW) on podcast episodes, then Join = the $160 Glam Vault (never the free Skool URL). Product launch: ONE code with six uses, code + link right in the post. In Package & Post mode, this agent writes the full package for her existing video and posts it once she approves the package. No price claim unless a live price was verified.'
   };
   for(var n=1;n<=5;n++){
     h+='<div class="solo-form'+(n===1?' active':'')+'" id="solo-'+n+'">'
@@ -397,9 +411,10 @@ function renderVault(){
     h+='<label>YouTube format</label><div class="radio-row">'
       +'<label class="radio-pill"><input type="radio" name="s'+n+'_format" value="Long-form 16:9" checked> Long-form 16:9</label>'
       +'<label class="radio-pill"><input type="radio" name="s'+n+'_format" value="YouTube Short 9:16"> YouTube Short 9:16</label></div>'
+      +'<label>What is this job built around?</label><select id="s'+n+'_ctype"><option>A product / offer</option><option selected>Images</option><option>A prompt</option><option>My existing video \u2014 already made</option><option>Just a topic / idea</option><option>Something else</option></select>'
       +'<label>Topic</label><input type="text" id="s'+n+'_topic" placeholder="What is this job about?">'
       +'<label>Length</label><input type="text" id="s'+n+'_length" placeholder="e.g. 8\u201310 minutes, or 45 seconds">'
-      +'<label>Product name and product link, when there is one</label><input type="text" id="s'+n+'_product_name" placeholder="Product name"><input type="url" id="s'+n+'_product_link" placeholder="https://\u2026 product link" style="margin-top:8px">'
+      +'<label>Name and link of what it is built around, when there is one</label><input type="text" id="s'+n+'_product_name" placeholder="Name \u2014 product, prompt, image set, or your video title"><input type="url" id="s'+n+'_product_link" placeholder="Link \u2014 Payhip, your live YouTube video, or leave empty" style="margin-top:8px">'
       +'<label>Reference video link, when there is one</label><input type="url" id="s'+n+'_ref_link" placeholder="https://youtube.com/\u2026 or a Pinterest pin link">'
       +'<label>Notes</label><textarea id="s'+n+'_notes" placeholder="Anything Muse must not swap"></textarea>'
       +'<label>Ready-to-copy prompt for this solo job</label><div class="prompt-out" id="s'+n+'_prompt"></div>'
@@ -413,7 +428,7 @@ function renderVault(){
   }); });
   document.querySelectorAll('select[data-charpicker]').forEach(function(sel){ sel.addEventListener('change', function(){ pickerChanged(sel); }); });
   for(var k=1;k<=5;k++){ (function(n){
-    ['char','mode','topic','length','product_name','product_link','ref_link','notes'].forEach(function(f){ var el=$('s'+n+'_'+f); if(el) el.addEventListener('input', function(){ refreshSoloPrompt(n); }); if(el) el.addEventListener('change', function(){ refreshSoloPrompt(n); }); });
+    ['char','mode','ctype','topic','length','product_name','product_link','ref_link','notes'].forEach(function(f){ var el=$('s'+n+'_'+f); if(el) el.addEventListener('input', function(){ refreshSoloPrompt(n); }); if(el) el.addEventListener('change', function(){ refreshSoloPrompt(n); }); });
     document.querySelectorAll('input[name="s'+n+'_pp"], input[name="s'+n+'_format"]').forEach(function(r){ r.addEventListener('change', function(){ refreshSoloPrompt(n); var out=$('s'+n+'_pp_sentence'); if(out) out.innerHTML='Exact prompt sentence for this job: <b>'+esc(ppSentence(getPP('s'+n+'_pp')))+'</b>'; }); });
     var out=$('s'+n+'_pp_sentence'); if(out) out.innerHTML='Exact prompt sentence for this job: <b>'+esc(ppSentence(getPP('s'+n+'_pp')))+'</b>';
   })(k); }
@@ -426,6 +441,8 @@ function slotLines(c){
 }
 function rulesBlock(pp){
   return '\nSTANDING RULES FOR THIS RUN:\n'
+  +'- NOT ALWAYS A PRODUCT: This run is built around what the Intake picked (product / offer, images, a prompt, an existing video, a topic, or something else \u2014 see Built Around in this prompt). Adapt to it: a prompt video leads with the prompt + reveal, an images video leads with the images, only a product video leads with the product and its link. Never force a product angle onto a run that isn\u2019t one.\n'
+  +'- EXISTING VIDEO MODE: If the mode is \u201cPackage & Post My Existing Video\u201d (or Built Around is an existing video), the video is ALREADY MADE \u2014 do not remake it. Scout checks her live/existing video first: watch it, note its current title, thumbnail, description and stats exactly as shown, and compare against what\u2019s popping. Production and Script are skipped. Image & Thumbnail makes a fresh 16:9 thumbnail from the winning patterns. Publish & Monetize writes the full package (title, description, chapters if long-form, tags, pinned comment, end-screen) and presents it to Glam \u2014 then POSTS it only after she approves the package in chat. Her approval of the package IS the post approval for this mode; nothing posts before it.\n'
   +'- CHANNEL: Glam Hustle Hub (@promptlikeglam) \u2014 beginner-friendly AI for women 40+. Voice: warm, plain everyday English, NO tech talk, a little sassy, step-by-step, calls the audience \u201cboo.\u201d Brand: light sapphire, chrome silver, pearl white, butterflies. Plus-size women are NEVER slimmed down.\n'
   +'- SCOUT FIRST (Agent 1): Research YouTube LIVE before anything is made \u2014 what\u2019s viral, what\u2019s popping, what\u2019s rising in her niche and adjacent lanes, AND what has already popped on her own channel. Report back to Glam FIRST: ranked, with real titles, channels, and view/recency evidence exactly as shown on YouTube, why each is popping (hook / title / thumbnail pattern), and the angle adapted for her audience in her voice \u2014 never a copy of another creator\u2019s video. She picks the direction; the farm goes from there. NO invented views, stats or trends \u2014 if it wasn\u2019t seen on YouTube, it isn\u2019t in the report.\n'
   +'- TREND-BASED IMAGES & THUMBNAILS (Agent 2): Image concepts and the 16:9 thumbnail are built FROM the Scout report\u2019s viral patterns (face size/expression, 3\u20134 big words, contrast, colour pop, split/before-and-after layouts when those are winning) \u2014 never a generic template. Her brand and her faces only. Show thumbnails use BOTH hosts of that show (AI After 40 = Renee + Marcus; The Prompt Breakdown = Simone + Desi) and hosts NEVER cross shows.\n'
@@ -448,14 +465,14 @@ function jobHeader(title, d){
   +'YouTube Format: '+(d.format||'\u2014')+'\n'
   +'Topic: '+(d.topic||'\u2014')+'\n'
   +'Length: '+(d.length||'\u2014')+'\n'
-  +'Product: '+((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:'' )||'\u2014')+'\n'
+  +'Built Around: '+(d.ctype||'\u2014')+'\n'+'Name / Link: '+(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'\n'
   +'Reference Video Link: '+(d.refLink||'\u2014 none \u2014')+'\n'
   +'Notes: '+(d.notes||'\u2014');
 }
 function buildFullPrompt(d){ return jobHeader('YOUTUBE FARM \u2014 FULL FARM RUN (all 5 agents, in order)', d)+rulesBlock(d.pp); }
 function buildSoloPrompt(d){ return jobHeader('YOUTUBE FARM \u2014 SOLO JOB: Agent '+d.agent+' \u2014 '+AGENTS[d.agent], d)+'\n\nRun ONLY this one agent job, on its own \u2014 not a full farm run.'+rulesBlock(d.pp); }
 function getSoloData(n){
-  return {kind:'solo', agent:n, characterId:($('s'+n+'_char')?$('s'+n+'_char').value:''), mode:$('s'+n+'_mode').value, pp:(n===3||n===4)?getPP('s'+n+'_pp'):'', format:getRadio('s'+n+'_format'), topic:$('s'+n+'_topic').value.trim(), length:$('s'+n+'_length').value.trim(), productName:$('s'+n+'_product_name').value.trim(), productLink:$('s'+n+'_product_link').value.trim(), refLink:$('s'+n+'_ref_link').value.trim(), notes:$('s'+n+'_notes').value.trim()};
+  return {kind:'solo', agent:n, characterId:($('s'+n+'_char')?$('s'+n+'_char').value:''), mode:$('s'+n+'_mode').value, pp:(n===3||n===4)?getPP('s'+n+'_pp'):'', format:getRadio('s'+n+'_format'), ctype:($('s'+n+'_ctype')?$('s'+n+'_ctype').value:''), topic:$('s'+n+'_topic').value.trim(), length:$('s'+n+'_length').value.trim(), productName:$('s'+n+'_product_name').value.trim(), productLink:$('s'+n+'_product_link').value.trim(), refLink:$('s'+n+'_ref_link').value.trim(), notes:$('s'+n+'_notes').value.trim()};
 }
 function refreshSoloPrompt(n){ var el=$('s'+n+'_prompt'); if(el) el.textContent=buildSoloPrompt(getSoloData(n)); }
 function refreshAllSoloPrompts(){ for(var n=1;n<=5;n++) refreshSoloPrompt(n); }
@@ -465,7 +482,7 @@ function copyText(text, msgEl){
   function fallback(){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); done(); }
 }
 $('in_save').addEventListener('click', function(){
-  var d={kind:'full', agent:0, id:uid(), status:'queued', createdAt:Date.now(), characterId:$('in_char').value==='__create'?'':$('in_char').value, mode:$('in_mode').value, pp:getPP('in_pp'), format:getRadio('in_format'), topic:$('in_topic').value.trim(), length:$('in_length').value.trim(), productName:$('in_product_name').value.trim(), productLink:$('in_product_link').value.trim(), refLink:$('in_ref_link').value.trim(), notes:$('in_notes').value.trim()};
+  var d={kind:'full', agent:0, id:uid(), status:'queued', createdAt:Date.now(), characterId:$('in_char').value==='__create'?'':$('in_char').value, mode:$('in_mode').value, pp:getPP('in_pp'), format:getRadio('in_format'), topic:$('in_topic').value.trim(), length:$('in_length').value.trim(), ctype:getRadio('in_ctype'), productName:$('in_product_name').value.trim(), productLink:$('in_product_link').value.trim(), refLink:$('in_ref_link').value.trim(), notes:$('in_notes').value.trim()};
   queue.unshift(d); saveQueue(); $('in_msg').textContent='\u2665 Full YouTube farm run saved to the Queue. Nothing has started \u2014 press Run in Chat on its Queue card when you are ready.'; renderQueue();
 });
 bindPP('in_pp','in_pp_sentence');
@@ -480,7 +497,7 @@ function renderQueue(){
       +'<div class="kv"><b>Character:</b> '+esc(charLabel(c))+'<br><b>Mode:</b> '+esc(d.mode||'\u2014')+'<br>'
       +'<b>Product Presentation:</b> '+esc(d.pp||'\u2014 none \u2014')+' \u2014 <b>'+esc(ppSentence(d.pp))+'</b><br>'
       +'<b>YouTube Format:</b> '+esc(d.format||'\u2014')+'<br><b>Topic:</b> '+esc(d.topic||'\u2014')+'<br><b>Length:</b> '+esc(d.length||'\u2014')+'<br>'
-      +'<b>Product:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'</div>'
+      +'<b>Built Around:</b> '+esc(d.ctype||'\u2014')+'<br><b>Name / Link:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'</div>'
       +'<div class="status-row"><span style="font-family:Space Mono,monospace;font-weight:bold;font-size:12.5px">STATUS (label only, runs nothing):</span>'
       +['queued','working','done'].map(function(s){ return '<button data-status="'+s+'" data-qid="'+d.id+'" class="'+(d.status===s?'on':'')+'">'+s+'</button>'; }).join('')+'</div>'
       +'<button class="btn small" data-run="'+d.id+'">\u25b6 Run in Chat</button> <button class="btn small danger" data-delq="'+d.id+'">Delete</button></div>';
@@ -503,7 +520,7 @@ function openRunCard(id){
     +'<b>Voice:</b> '+esc((c&&c.voice)||'\u2014')+'<br><b>Mode:</b> '+esc(d.mode||'\u2014')+'<br>'
     +'<b>Product Presentation:</b> '+esc(d.pp||'\u2014 none \u2014')+' \u2014 <b>'+esc(ppSentence(d.pp))+'</b><br>'
     +'<b>YouTube Format:</b> '+esc(d.format||'\u2014')+'<br><b>Topic:</b> '+esc(d.topic||'\u2014')+'<br><b>Length:</b> '+esc(d.length||'\u2014')+'<br>'
-    +'<b>Product:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'<br>'
+    +'<b>Built Around:</b> '+esc(d.ctype||'\u2014')+'<br><b>Name / Link:</b> '+esc(((d.productName||'')+(d.productLink?' \u2014 '+d.productLink:''))||'\u2014')+'<br>'
     +'<b>Reference Video Link:</b> '+esc(d.refLink||'\u2014 none \u2014')+'</div>'
     +'<label>The complete prompt \u2014 nothing swapped</label><div class="prompt-out" id="runPromptOut"></div>'
     +'<div><button class="btn" id="runCopyBtn">Copy prompt</button></div><div class="saved-msg" id="runMsg"></div>'
